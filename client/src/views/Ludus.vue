@@ -23,24 +23,22 @@
 
         </b-modal>
 
-        <h1 class="m-2">Select 2 types of gladiators</h1>
+        <h1 class="mt-4">Select 2 types of gladiators</h1>
 
-        <b-row class="m-4 mt-5" align-h="center">
+        <b-row align-h="center">
 
-            <b-card v-for="(type, index) in types" :key="index"
-                    :title="type.name"
-                    :img-src="type.img"
-                    img-alt="Image"
-                    img-top
-                    tag="article"
-                    :class="'m-3 card-default ' + (selected[type.name] ? 'card-selected' : '')"
-            >
-                <em slot="footer">
+            <div :class="'m-3 card ' + (selected[type.name] ? 'card-selected' : '')" v-for="(type, index) in types" :key="index">
+                <figure>
+                    <img :src="type.img" style="width:100%">
+                </figure>
+                <div class="container m-2">
+                    <h4><b>{{type.name}}</b></h4>
                     <b-button v-if="selected[type.name]" variant="success" @click="unselectType(type.name)">Selected</b-button>
+                    <b-button v-else-if="numberOfSelected() === 2" disabled>Select</b-button>
                     <b-button v-else variant="primary" @click="selectType(type.name)">Select</b-button>
-                </em>
+                </div>
+            </div>
 
-            </b-card>
         </b-row>
 
         <b-button v-if="numberOfSelected() === 2" v-b-modal.bonus-confirmation block variant="success">Confirm
@@ -107,13 +105,34 @@
 </script>
 
 <style scoped>
-    .card-default {
-        max-width: 20rem;
-        min-width: 30rem;
-        text-align: center;
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 40%;
+        border-radius: 5px;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     }
 
     .card-selected {
-        box-shadow: 0 0 0 0.1rem rgba(94, 242, 16, 0.24);
+        box-shadow: 0 0 0 0.1rem rgba(94, 242, 16, 0.24) !important;
+    }
+
+    figure{
+        height:175px;
+        overflow:hidden;
+        margin:0;
+    }
+
+    figure img{
+        display:block;
+        border-radius: 5px 5px 0 0;
+        width:100%;
+    }
+    .container {
+        padding: 2px 16px;
+        text-align: center;
     }
 </style>

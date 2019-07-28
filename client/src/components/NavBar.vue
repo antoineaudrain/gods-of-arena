@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar style="background: #101c29" toggleable="lg" type="dark">
       <b-navbar-brand href="#" v-on:click="$router.push('/')">Gods Of Arena</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
