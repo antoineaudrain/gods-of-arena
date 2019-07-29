@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: "goa"
+    environment:
+      - POSTGRES_PASSWORD=goa
+      - POSTGRES_USER=goa
+      - POSTGRES_DB=goa
+    ports:
+      - "54320:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  data:

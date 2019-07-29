@@ -1,26 +1,9 @@
 <template>
-    <div class="ludus">
-
-        <b-modal id="bonus-confirmation" title="Do you want to add Animal(s)?" body-class="p-0">
-            <b-img rounded src="https://i.ibb.co/5K0bHRf/Animal.jpg" fluid alt="Responsive image"></b-img>
-
-            <template slot="modal-footer" slot-scope="{ ok, cancel, hide }">
-                <b-button size="sm" variant="outline-secondary" @click="$bvModal.hide('bonus-confirmation')">
-                    Cancel
-                </b-button>
-                <b-button size="sm" variant="outline-danger" @click="validate()">
-                    NO
-                </b-button>
-                <b-button id="with-animal" size="sm" variant="success" @click="validate(true)">
-                    YES
-                </b-button>
-            </template>
-
-        </b-modal>
+    <div class="main">
 
         <div style="margin-left: 8rem; margin-right: 8rem;">
-            <h1 class="mt-4">Select 2 types of gladiators</h1>
-            <p>The Ludus have to choose two classes of opponents out of the 4 made available.</p>
+            <h1 class="mt-4">{{title}}</h1>
+            <p>{{comment}}</p>
         </div>
 
         <b-row align-h="center">
@@ -39,27 +22,24 @@
             </div>
         </b-row>
 
-        <div v-if="numberOfSelected() === 2" style="border-top: 1px solid lightgrey; margin-left: 8rem; margin-right: 8rem; margin-top: 2rem; margin-bottom: 2rem"/>
-
+        <div class="separator"/>
         <b-row align-h="center">
-            <div v-if="numberOfSelected() === 2" :class="'m-3 card ' + (selected[option.name] ? 'card-selected' : '')"
+            <div :class="'m-3 card ' + (selected[Animal] ? 'card-selected' : '')"
                  :key="index">
                 <figure>
-                    <img :src="option.img">
+                    <img src="https://i.ibb.co/5K0bHRf/Animal.jpg">
                 </figure>
                 <div class="container m-2">
-                    <h4><b>{{option.name}}</b></h4>
-                    <b-button v-if="selected[option.name]" variant="success" @click="unselectType(option.name)">Selected
-                    </b-button>
-                    <b-button v-else variant="primary" @click="selectType(option.name)">Select</b-button>
+                    <h4><b>Animal</b></h4>
+                    <b-button v-if="selected[Animal]" variant="success">Selected</b-button>
+                    <b-button v-else variant="primary">Select</b-button>
                 </div>
             </div>
         </b-row>
-
-        <div v-if="numberOfSelected() === 2" style="border-top: 1px solid lightgrey; margin-left: 8rem; margin-right: 8rem; margin-top: 2rem; margin-bottom: 2rem"/>
+        <div class="separator"/>
 
         <b-row align-h="center mt-4">
-            <b-button v-if="numberOfSelected() === 2" v-b-modal.bonus-confirmation variant="success">Confirm Selection
+            <b-button v-if="numberOfSelected() === 2" variant="success">Confirm Selection
             </b-button>
         </b-row>
 
@@ -73,6 +53,10 @@
     data() {
       return {
         selected: {},
+
+        title: `Select 2 types of gladiators`,
+
+        comment: `The Ludus have to choose two classes of opponents out of the 4 made available, Animals are optional.`,
 
         types: [
           {
@@ -92,11 +76,6 @@
             img: 'https://i.ibb.co/MsMnvnd/Archer.jpg'
           },
         ],
-
-        option: {
-          name: 'Animal',
-          img: 'https://i.ibb.co/5K0bHRf/Animal.jpg'
-        }
       }
     },
 
@@ -116,7 +95,7 @@
       },
 
       validate(withAnimal = false) {
-        // handle insert emperor-queue query
+        // handle emperor-queue query
       },
     },
   }
@@ -153,6 +132,14 @@
         display: block;
         border-radius: 5px 5px 0 0;
         width: 100%;
+    }
+
+    .separator {
+        border-top: 1px solid lightgrey;
+        margin-left: 8rem;
+        margin-right: 8rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem
     }
 
     .container {
