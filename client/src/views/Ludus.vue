@@ -18,8 +18,10 @@
 
         </b-modal>
 
-        <h1 class="mt-4">Select 2 types of gladiators</h1>
-        <p>The Ludus have to choose two classes of opponents out of the 4 made available.</p>
+        <div style="margin-left: 8rem; margin-right: 8rem;">
+            <h1 class="mt-4">Select 2 types of gladiators</h1>
+            <p>The Ludus have to choose two classes of opponents out of the 4 made available.</p>
+        </div>
 
         <b-row align-h="center">
             <div :class="'m-3 card ' + (selected[type.name] ? 'card-selected' : '')" v-for="(type, index) in types"
@@ -36,6 +38,25 @@
                 </div>
             </div>
         </b-row>
+
+        <div v-if="numberOfSelected() === 2" style="border-top: 1px solid lightgrey; margin-left: 8rem; margin-right: 8rem; margin-top: 2rem; margin-bottom: 2rem"/>
+
+        <b-row align-h="center">
+            <div v-if="numberOfSelected() === 2" :class="'m-3 card ' + (selected[option.name] ? 'card-selected' : '')"
+                 :key="index">
+                <figure>
+                    <img :src="option.img">
+                </figure>
+                <div class="container m-2">
+                    <h4><b>{{option.name}}</b></h4>
+                    <b-button v-if="selected[option.name]" variant="success" @click="unselectType(option.name)">Selected
+                    </b-button>
+                    <b-button v-else variant="primary" @click="selectType(option.name)">Select</b-button>
+                </div>
+            </div>
+        </b-row>
+
+        <div v-if="numberOfSelected() === 2" style="border-top: 1px solid lightgrey; margin-left: 8rem; margin-right: 8rem; margin-top: 2rem; margin-bottom: 2rem"/>
 
         <b-row align-h="center mt-4">
             <b-button v-if="numberOfSelected() === 2" v-b-modal.bonus-confirmation variant="success">Confirm Selection
@@ -55,22 +76,27 @@
 
         types: [
           {
-            name: 'Swordsman',
+            name: 'Swordsmen',
             img: 'https://i.ibb.co/Ht80XDR/Epe-iste.jpg'
           },
           {
-            name: 'Spearman',
+            name: 'Spearmen',
             img: 'https://i.ibb.co/QYF18qs/Lancier.jpg'
           },
           {
-            name: 'Horseman',
+            name: 'Horsemen',
             img: 'https://i.ibb.co/phCRZ9n/Cavalier.jpg'
           },
           {
-            name: 'Bowman',
+            name: 'Bowmen',
             img: 'https://i.ibb.co/MsMnvnd/Archer.jpg'
           },
         ],
+
+        option: {
+          name: 'Animal',
+          img: 'https://i.ibb.co/5K0bHRf/Animal.jpg'
+        }
       }
     },
 
@@ -80,6 +106,7 @@
           this.$set(this.selected, type, true)
         }
       },
+
       unselectType(type) {
         this.$set(this.selected, type, false)
       },
@@ -89,7 +116,7 @@
       },
 
       validate(withAnimal = false) {
-
+        // handle insert emperor-queue query
       },
     },
   }
@@ -99,7 +126,7 @@
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         transition: 0.3s;
-        width: 40%;
+        width: 20rem;
         height: 15rem;
         border-radius: 5px;
     }
