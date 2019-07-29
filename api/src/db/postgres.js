@@ -1,9 +1,9 @@
-const { Client } = require('pg')
+const pg = require('pg')
 
-module.exports = new Client({
-    user: 'root',
+module.exports = new pg.Pool({
     host: 'localhost',
+    user: 'goa',
+    password: 'goa',
     database: 'goa',
-    password: 'root',
-    port: 5433,
+    port: 5432,
 });

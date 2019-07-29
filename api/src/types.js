@@ -1,32 +1,32 @@
 const Types = {
-    BOWMAN: 0,
-    HORSEMAN: 1,
-    SWORDMAN: 2,
-    SPEARMAN: 3,
+    BOWMEN: 'BOWMEN',
+    HORSEMEN: 'HORSEMEN',
+    SWORDSMEN: 'SWORDSMEN',
+    SPEARMEN: 'SPEARMEN',
 };
 
 
 const Character = {
-    COMMODUS: 0,
-    FLAMMA: 1,
+    COMMODUS: 'COMMODUS',
+    FLAMMA: 'FLAMMA',
 
-    JEANCLAUDEDUS: 2,
-    SPICULUS: 3,
+    JEANCLAUDEDUS: 'JEANCLAUDEDUS',
+    SPICULUS: 'SPICULUS',
 
-    MAXIMUS: 4,
-    SPARTACUS: 5,
-    PRISCUS: 6,
-    POLLUX: 7,
+    MAXIMUS: 'MAXIMUS',
+    SPARTACUS: 'SPARTACUS',
+    PRISCUS: 'PRISCUS',
+    POLLUX: 'POLLUX',
 
-    GANICUS: 8,
-    CRIXUS: 9,
+    GANICUS: 'GANICUS',
+    CRIXUS: 'CRIXUS',
 }
 
 
 const Animal = {
-    BLACKSHEEPL: 0,
-    TIGERL: 1,
-    LIONL: 2,
+    BLACKSHEEPL: 'BLACKSHEEPL',
+    TIGERL: 'TIGERL',
+    LIONL: 'LIONL',
 }
 
 module.exports = {
