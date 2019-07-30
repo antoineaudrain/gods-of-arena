@@ -89,7 +89,6 @@ const resolvers = {
   },
 
   Query: {
-
     /**
      *
      * @param _

@@ -33,7 +33,7 @@
       GladiatorCard
     },
     apollo: {
-      oldest: {
+      oldestScheduledBattle: {
         query: gql`query {
           oldestScheduledBattle{
             first
