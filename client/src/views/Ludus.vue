@@ -115,7 +115,7 @@
 
         return this.$apollo.mutate({
           mutation: gql`mutation($first: Type!, $second: Type!, $withAnimal: Boolean!) {
-                                 ludusSelection(first: $first, second: $second, withAnimal: $withAnimal)
+                                 scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
                                 }`,
           variables: {
             first,

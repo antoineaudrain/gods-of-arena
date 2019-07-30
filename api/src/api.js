@@ -1,6 +1,5 @@
 const {ApolloServer, gql} = require('apollo-server');
 const client = require("./db/postgres");
-const {Types} = require("./types")
 
 const typeDefs = gql`
     enum Type {
@@ -32,31 +31,31 @@ const typeDefs = gql`
         LION
     }
     
-    input EmperorDecision {
+    input battle {
         type: Type!
         character: Character!
     }
 
-    type InProgress {
+    type ScheduledBattle {
         first: Type!
         second: Type!
         withAnimal: Boolean!
     }
     
-    type Arena {
+    type Battle {
         first: Character!
         second: Character!
         animals: [Animal]!
     }
     
     type Query {
-        oldest: InProgress
-        arenas(page: Int, amount: Int): [Arena]
+        oldestScheduledBattle: ScheduledBattle
+        battles(page: Int, amount: Int): [Battle]
     }
 
     type Mutation {
-        ludusSelection(first: Type!, second: Type!, withAnimal: Boolean!): Boolean
-        emperorDecision(first: EmperorDecision!, second: EmperorDecision!, animals: [Animal]!): Boolean
+        scheduleBattle(first: Type!, second: Type!, withAnimal: Boolean!): Boolean
+        battle(first: battle!, second: battle!, animals: [Animal]!): Boolean
     }
 `
 
@@ -69,7 +68,7 @@ const resolvers = {
      * @param withAnimal {Number}
      * @return {Boolean}
      */
-    ludusSelection: (_, {first, second, withAnimal}) => {
+    scheduleBattle: (_, {first, second, withAnimal}) => {
       client.query(`
         INSERT INTO types (first_type, second_type, with_animal)
         VALUES($1, $2, $3);`,
@@ -84,7 +83,7 @@ const resolvers = {
      * @param animals {Array}
      * @return {Boolean}
      */
-    emperorDecision: (_, {first, second, animals}) => {
+    battle: (_, {first, second, animals}) => {
 
     },
   },
@@ -96,7 +95,7 @@ const resolvers = {
      * @param _
      * @returns {{withAnimal: boolean, first: *, second: *}[]}
      */
-    oldest: async (_, {}) => {
+    oldestScheduledBattle: async (_, {}) => {
       // check if lenght = 0
       let result = (await client.query(`SELECT first_type, second_type, with_animal FROM types ORDER BY date LIMIT 1;`)).rows[0]
 
@@ -113,7 +112,7 @@ const resolvers = {
      * @param page {Number}
      * @param amount {Number}
      */
-    arenas: (_, {page, amount}) => {
+    battles: (_, {page, amount}) => {
 
     }
   }

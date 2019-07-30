@@ -4,11 +4,11 @@ const Types = {
     name: 'Swordsmen',
     id: 'SWORDSMEN',
     characters: [
-      'Maximus',
-      'Spartacus',
-      'Priscus',
-      'Puollux'
-    ]
+      {id: 'MAXIMUS', name: 'Maximus'},
+      {id: 'SPARTACUS', name: 'Spartacus'},
+      {id: 'PRISCUS', name: 'Priscus'},
+      {id: 'POLLUX', name: 'Pollux'}
+    ],
   },
   SPEARMEN: {
     img: 'https://i.ibb.co/QYF18qs/Lancier.jpg',

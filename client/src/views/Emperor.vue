@@ -10,9 +10,9 @@
 
             <b-container class="col-8">
                 <b-row align-h="center">
-                    <EmperorCard :type="types[oldest.first]" @cardToParent="onCardClick"/>
-                    <EmperorCard :type="types[oldest.second]" @cardToParent="onCardClick"/>
-                    <EmperorCard v-if="oldest.withAnimal" :type="animalType"/>
+                    <GladiatorCard :type="types[oldest.first]" @cardToParent="onCardClick"/>
+                    <GladiatorCard :type="types[oldest.second]" @cardToParent="onCardClick"/>
+                    <GladiatorCard v-if="oldest.withAnimal" :type="animalType"/>
                 </b-row>
             </b-container>
 
@@ -25,17 +25,17 @@
 <script>
   import gql from 'graphql-tag'
   import {Types, AnimalType} from '../types'
-  import {EmperorCard} from '../components/index'
+  import {GladiatorCard} from '../components/index'
 
   export default {
     name: 'emperor',
     components: {
-      EmperorCard
+      GladiatorCard
     },
     apollo: {
       oldest: {
         query: gql`query {
-          oldest{
+          oldestScheduledBattle{
             first
             second
             withAnimal
