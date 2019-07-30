@@ -20,27 +20,33 @@
         </b-card-text>
 
         <b-card-text v-else class="character-selection" style="padding: 1rem;">
+
             <b-form-select v-if="confirmed" disabled v-model="gladiator" :options="type.characters"></b-form-select>
             <b-form-select v-else v-model="gladiator" :options="type.characters.map(e => e.name)">
                 <template slot="first">
                     <option :value="null" disabled>-- Please select a gladiator --</option>
                 </template>
             </b-form-select>
+
+            <div style="margin-top: 1rem; align-self: center;" v-if="gladiator === 'Maximus' || gladiator === 'Spartacus'">
+                <b-form-group v-if="confirmed" disabled >
+                    <b-form-radio v-model="option" value="one handed sword">One Handed Sword</b-form-radio>
+                    <b-form-radio v-model="option" value="two handed sword">Two Handed Sword</b-form-radio>
+                </b-form-group>
+                <b-form-group v-else>
+                    <b-form-radio v-model="option" value="one handed sword">One Handed Sword</b-form-radio>
+                    <b-form-radio v-model="option" value="two handed sword">Two Handed Sword</b-form-radio>
+                </b-form-group>
+            </div>
+
         </b-card-text>
 
         <div style="position: absolute; bottom: 6rem;" class="card-separator"/>
 
-<!--        <div style="margin-top: 1rem; align-self: center;" v-if="gladiator === 'Maximus' || gladiator === 'Spartacus'">-->
-<!--            <b-button v-if="confirmed" disabled>Confirmed</b-button>-->
-<!--            <div v-else class="row">-->
-<!--                <b-button class="col" variant="success" @click="emitToParent('one handed')" style="padding: 0; margin-left: 1rem; margin-right: 1rem; min-width: 8rem; min-height: 2rem;">one-handed</b-button>-->
-<!--                <b-button class="col" variant="success" @click="emitToParent('two handed')" style="padding: 0; margin-left: 1rem; margin-right: 1rem; min-width: 8rem; min-height: 2rem;">two-handed</b-button>-->
-<!--            </div>-->
-<!--        </div>-->
-
         <div style="position: absolute; bottom: 0; margin: 2rem; width: 80%;">
             <b-button v-if="confirmed" disabled>Confirmed</b-button>
-            <b-button v-else-if="gladiator" block variant="success" @click="emitToParent(null)">Confirm</b-button>
+            <b-button v-else-if="(gladiator === 'Maximus' || gladiator === 'Spartacus') && option" block variant="success" @click="emitToParent(option)">Confirm</b-button>
+            <b-button v-else-if="gladiator && gladiator !== 'Maximus' && gladiator !== 'Spartacus'" block variant="success" @click="emitToParent(null)">Confirm</b-button>
         </div>
     </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
     <div class="main">
 
-        <div style="margin-left: 8rem; margin-right: 8rem;">
-            <h1 class="mt-4">{{title}}</h1>
-            <p>{{comment}}</p>
-        </div>
-
         <div class="row" v-if="oldestScheduledBattle">
+
+            <div style="margin-left: 8rem; margin-right: 8rem;">
+                <h1 class="mt-4">{{title}}</h1>
+                <p>{{comment}}</p>
+            </div>
 
             <b-container class="col-8">
                 <b-row align-h="center">
@@ -18,7 +18,7 @@
 
         </div>
 
-        <div v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 15rem;">
+        <div v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 20rem;">
             <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
         </div>
 

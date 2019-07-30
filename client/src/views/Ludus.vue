@@ -24,22 +24,23 @@
 
         <div class="separator"/>
         <b-row align-h="center">
-            <div :class="'m-3 card ' + (option ? 'card-selected' : '')">
+            <div :class="'m-3 card ' + (withAnimal ? 'card-selected' : '') + (numberOfSelected() !== 2 ? 'cancel-shadow' : '')">
                 <figure>
                     <img src="https://i.ibb.co/5K0bHRf/Animal.jpg">
                 </figure>
                 <div class="container m-2">
                     <h4><b>Animal</b></h4>
-                    <b-button v-if="option" variant="success" @click="unselectOption()">Selected
+                    <b-button v-if="numberOfSelected() !== 2" disabled>Select</b-button>
+                    <b-button v-else-if="withAnimal" variant="success" @click="unselectwithAnimal()">Selected
                     </b-button>
-                    <b-button v-else variant="primary" @click="selectOption()">Select</b-button>
+                    <b-button v-else variant="primary" @click="selectwithAnimal()">Select</b-button>
                 </div>
             </div>
         </b-row>
         <div class="separator"/>
 
         <b-row align-h="center mt-4">
-            <b-button v-if="numberOfSelected() === 2" variant="success" @click="validate(option)">Confirm Selection
+            <b-button v-if="numberOfSelected() === 2" variant="success" @click="validate(withAnimal)">Confirm Selection
             </b-button>
         </b-row>
 
@@ -55,12 +56,10 @@
     data() {
       return {
         selected: {},
-
-        option: false,
+        withAnimal: false,
 
         title: `Select 2 types of gladiators`,
-
-        comment: `The Ludus have to choose two classes of opponents out of the 4 made available, Animals are optional.`,
+        comment: `The Ludus have to choose two classes of opponents out of the 4 made available, Animals are withAnimalal.`,
 
         types: [
           {
@@ -98,12 +97,12 @@
         this.$set(this.selected, type, false)
       },
 
-      selectOption() {
-        this.option = true
+      selectwithAnimal() {
+        this.withAnimal = true
       },
 
-      unselectOption() {
-        this.option = false
+      unselectwithAnimal() {
+        this.withAnimal = false
       },
 
       numberOfSelected() {
@@ -125,10 +124,6 @@
         });
       },
 
-      validate(withAnimal = false) {
-        this.insertTypes(this.selected, withAnimal).then(this.notifySuccess).catch(this.notifyFailure)
-      },
-
       notifySuccess() {
         this.$bvToast.toast('Your selection has been send to the Emperor', {
           title: 'Success!',
@@ -143,6 +138,12 @@
           variant: 'danger',
           solid: true
         })
+      },
+
+      validate(withAnimal = false) {
+        this.insertTypes(this.selected, withAnimal).then(this.notifySuccess).catch(this.notifyFailure)
+        this.selected = {}
+        this.withAnimal = false
       }
     }
   }
@@ -163,6 +164,10 @@
 
     .card-selected {
         box-shadow: 0 0 0 0.1rem rgba(94, 242, 16, 0.24) !important;
+    }
+
+    .cancel-shadow {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
     }
 
     #with-animal {
