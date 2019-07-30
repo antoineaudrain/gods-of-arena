@@ -2,6 +2,7 @@ const Types = {
   SWORDSMEN: {
     img: 'https://i.ibb.co/Ht80XDR/Epe-iste.jpg',
     name: 'Swordsmen',
+    type: 'SWORDSMEN',
     characters: [
       'Maximus',
       'Spartacus',
@@ -12,6 +13,7 @@ const Types = {
   SPEARMEN: {
     img: 'https://i.ibb.co/QYF18qs/Lancier.jpg',
     name: 'Spearmen',
+    type: 'SPEARMEN',
     characters: [
       'Ganicus',
       'Crixus'
@@ -20,6 +22,7 @@ const Types = {
   HORSEMEN: {
     img: 'https://i.ibb.co/phCRZ9n/Cavalier.jpg',
     name: 'Horsemen',
+    type: 'HORSEMEN',
     characters: [
       'Jeanclaudedus',
       'Spiculus'
@@ -28,6 +31,7 @@ const Types = {
   BOWMEN: {
     img: 'https://i.ibb.co/MsMnvnd/Archer.jpg',
     name: 'Bowmen',
+    type: 'BOWMEN',
     characters: [
       'Commodus',
       'Flamma'

@@ -10,7 +10,7 @@
 
             <b-container class="col-8">
                 <b-row align-h="center">
-                    <div class="m-3 card" v-for="(type, index) in types" :key="index">
+                    <div class="m-3 card" v-if="type.type === oldest.first || type.type === oldest.second" v-for="(type, index) in types" :key="index">
                         <figure>
                             <img :src="type.img" style="width:100%">
                         </figure>
@@ -29,14 +29,32 @@
                             <b-button variant="success">Selected</b-button>
                         </div>
                     </div>
+
+<!--                    <div class="m-3 card" v-if="oldest.withAnimal">-->
+<!--                        <figure>-->
+<!--                            <img :src="optionType.ANIMALS.img" style="width:100%">-->
+<!--                        </figure>-->
+
+<!--                        <div style="padding: 1rem; align-self: center;">-->
+<!--                            <h4><b>{{optionType.ANIMALS.name}}</b></h4>-->
+<!--                        </div>-->
+
+<!--                        <div class="card-separator"/>-->
+<!--                        <b-card-text class="character-selection" style="padding: 1rem; margin: 0;">-->
+<!--                            <p>Select a gladiator</p>-->
+<!--                            <b-form-select v-model="selected" :options="optionType.ANIMALS.characters"></b-form-select>-->
+<!--                        </b-card-text>-->
+
+<!--                        <div style="margin: 1rem; align-self: center;">-->
+<!--                            <b-button variant="success">Selected</b-button>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </b-row>
             </b-container>
 
         </div>
 
         <div class="separator"/>
-
-        {{oldest}}
 
         <!--        <b-row align-h="center">-->
         <!--            <div class="m-3 result-card row" style="overflow: hidden;">-->
@@ -54,7 +72,7 @@
 
 <script>
   import gql from 'graphql-tag'
-  import {Types} from '../types'
+  import {Types, OptionType} from '../types'
 
   export default {
     name: 'emperor',
@@ -75,8 +93,8 @@
     data() {
       return {
         oldest: {},
-
         types: Types,
+        optionType: OptionType,
 
         title: `Select 2 characters`,
 
