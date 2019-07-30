@@ -40,7 +40,7 @@
         <div class="separator"/>
 
         <b-row align-h="center mt-4">
-            <b-button v-if="numberOfSelected() === 2" variant="success" @click="validate(withAnimal)">Confirm Selection
+            <b-button v-if="numberOfSelected() === 2" variant="success" @click="onScheduledBattleConfirmed(withAnimal)">Confirm Selection
             </b-button>
         </b-row>
 
@@ -109,21 +109,6 @@
         return Object.entries(this.selected).reduce((acc, [_, value]) => value ? acc + 1 : acc, 0)
       },
 
-      insertTypes(types, withAnimal) {
-        let [first, second] = Object.keys(types).filter((k) => types[k])
-
-        return this.$apollo.mutate({
-          mutation: gql`mutation($first: Type!, $second: Type!, $withAnimal: Boolean!) {
-                                 scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
-                                }`,
-          variables: {
-            first,
-            second,
-            withAnimal
-          },
-        });
-      },
-
       notifySuccess() {
         this.$bvToast.toast('Your selection has been send to the Emperor', {
           title: 'Success!',
@@ -140,8 +125,23 @@
         })
       },
 
-      validate(withAnimal = false) {
-        this.insertTypes(this.selected, withAnimal).then(this.notifySuccess).catch(this.notifyFailure)
+      insertScheduledBattle(types, withAnimal) {
+        let [first, second] = Object.keys(types).filter((k) => types[k])
+
+        return this.$apollo.mutate({
+          mutation: gql`mutation($first: Type!, $second: Type!, $withAnimal: Boolean!) {
+                                 scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
+                                }`,
+          variables: {
+            first,
+            second,
+            withAnimal
+          },
+        });
+      },
+
+      onScheduledBattleConfirmed(withAnimal = false) {
+        this.insertScheduledBattle(this.selected, withAnimal).then(this.notifySuccess).catch(this.notifyFailure)
         this.selected = {}
         this.withAnimal = false
       }

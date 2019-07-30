@@ -1,40 +1,46 @@
 <template>
     <div class="main">
 
-        <div class="row" v-if="oldestScheduledBattle">
+        <div v-if="oldestScheduledBattle">
 
-            <div style="margin-left: 8rem; margin-right: 8rem;">
-                <h1 class="mt-4">{{title}}</h1>
-                <p>{{comment}}</p>
+            <div class="row">
+                <div style="margin-left: 8rem; margin-right: 8rem;">
+                    <h1 class="mt-4">{{title}}</h1>
+                    <p>{{comment}}</p>
+                </div>
+
+                <b-container class="col-8">
+                    <b-row align-h="center">
+                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first]" @cardToParent="onCardConfirmed"/>
+                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second]" @cardToParent="onCardConfirmed"/>
+                        <GladiatorSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType" @cardToParent="onCardConfirmed"/>
+                    </b-row>
+                </b-container>
             </div>
 
-            <b-container class="col-8">
-                <b-row align-h="center">
-                    <GladiatorCard :type="types[oldestScheduledBattle.first]" @cardToParent="onCardClick"/>
-                    <GladiatorCard :type="types[oldestScheduledBattle.second]" @cardToParent="onCardClick"/>
-                    <GladiatorCard v-if="oldestScheduledBattle.withAnimal" :type="animalType"/>
-                </b-row>
-            </b-container>
+            <div class="separator"/>
+
+            <b-row align-h="center mt-4">
+                <b-button v-if="battle.length === (oldestScheduledBattle.withAnimal ? 5 : 3)" variant="success" @click="onBattleConfirmed">Confirm Selection</b-button>
+            </b-row>
 
         </div>
 
         <div v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 20rem;">
             <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
         </div>
-
-        <div class="separator"/>
     </div>
 </template>
 
 <script>
   import gql from 'graphql-tag'
   import {Types, AnimalType} from '../types'
-  import {GladiatorCard} from '../components/index'
+  import {GladiatorSelectionCard} from '../components/index'
 
   export default {
     name: 'emperor',
     components: {
-      GladiatorCard
+      GladiatorSelectionCard
     },
     apollo: {
       oldestScheduledBattle: {
@@ -62,10 +68,36 @@
       }
     },
     methods: {
-      onCardClick (value) {
+      onCardConfirmed (value) {
         this.battle = [...this.battle, value]
-        console.log(this.battle)
+      },
+      insertBattle(types, withAnimal) {
+        let [first, second] = Object.keys(types).filter((k) => types[k])
+
+        return this.$apollo.mutate({
+          mutation: gql`mutation($first: Type!, $second: Type!, $withAnimal: Boolean!) {
+                                 scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
+                                }`,
+          variables: {
+            first,
+            second,
+            withAnimal
+          },
+        });
+      },
+      onBattleConfirmed () {
+        console.log('QUERY HERE')
       }
     }
   }
 </script>
+
+<style scoped>
+    .separator {
+        border-top: 1px solid lightgrey;
+        margin-left: 8rem;
+        margin-right: 8rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem
+    }
+</style>

@@ -70,9 +70,11 @@ const resolvers = {
      */
     scheduleBattle: (_, {first, second, withAnimal}) => {
       client.query(`
-        INSERT INTO types (first_type, second_type, with_animal)
+        INSERT INTO scheduled_battles (first_type, second_type, with_animal)
         VALUES($1, $2, $3);`,
-        [first, second, withAnimal]).catch((err) => {console.log(err)})
+        [first, second, withAnimal]).catch((err) => {
+        console.log(err)
+      })
       return true
     },
 
@@ -96,7 +98,7 @@ const resolvers = {
      */
     oldestScheduledBattle: async (_, {}) => {
       // check if lenght = 0
-      let result = (await client.query(`SELECT first_type, second_type, with_animal FROM types ORDER BY date LIMIT 1;`)).rows[0]
+      let result = (await client.query(`SELECT first_type, second_type, with_animal FROM scheduled_battles ORDER BY date LIMIT 1;`)).rows[0]
 
       return {
         withAnimal: result['with_animal'],

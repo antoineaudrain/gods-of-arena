@@ -10,22 +10,35 @@
 
         <div class="card-separator"/>
 
-        <b-card-text v-if="type.id === 'ANIMALS'" class="character-selection" style="padding: 1rem;">
-            <b-form-select v-if="confirmed" disabled v-model="gladiator" :options="type.characters"></b-form-select>
-            <b-form-select v-else v-model="gladiator" :options="type.characters.map(e => e.name)">
-                <template slot="first">
-                    <option :value="null" disabled>none</option>
-                </template>
-            </b-form-select>
+        <b-card-text v-if="type.id === 'ANIMALS'" class="character-selection">
+            <b-form inline style="margin: 0.25rem; justify-content: space-between" v-for="(animal, index) in animals" :key="index">
+                <label class="mr-sm-2">{{animal.name}}</label>
+                <b-form-select  v-if="confirmed" disabled
+                        class="mb-2 mr-sm-2 mb-sm-0"
+                        :value="null"
+                        v-model="animal.quantity"
+                        :options="{ '1': 'One', '2': 'Two', '3': 'Three' }"
+                        id="inline-form-custom-select-pref"
+                >
+                    <option slot="first" :value="null">Choose...</option>
+                </b-form-select>
+                <b-form-select v-else
+                        class="mb-2 mr-sm-2 mb-sm-0"
+                        :value="null"
+                        v-model="animal.quantity"
+                        :options="{ '1': 'One', '2': 'Two', '3': 'Three' }"
+                        id="inline-form-custom-select-pref"
+                >
+                    <option slot="first" :value="null">Choose...</option>
+                </b-form-select>
+            </b-form>
         </b-card-text>
 
         <b-card-text v-else class="character-selection" style="padding: 1rem;">
 
             <b-form-select v-if="confirmed" disabled v-model="gladiator" :options="type.characters"></b-form-select>
             <b-form-select v-else v-model="gladiator" :options="type.characters.map(e => e.name)">
-                <template slot="first">
-                    <option :value="null" disabled>-- Please select a gladiator --</option>
-                </template>
+                    <option slot="first" :value="null" disabled>-- Please select a gladiator --</option>
             </b-form-select>
 
             <div style="margin-top: 1rem; align-self: center;" v-if="gladiator === 'Maximus' || gladiator === 'Spartacus'">
@@ -41,12 +54,13 @@
 
         </b-card-text>
 
-        <div style="position: absolute; bottom: 6rem;" class="card-separator"/>
+        <div style="position: absolute; bottom: 5rem;" class="card-separator"/>
 
-        <div style="position: absolute; bottom: 0; margin: 2rem; width: 80%;">
-            <b-button v-if="confirmed" disabled>Confirmed</b-button>
-            <b-button v-else-if="(gladiator === 'Maximus' || gladiator === 'Spartacus') && option" block variant="success" @click="emitToParent(option)">Confirm</b-button>
-            <b-button v-else-if="gladiator && gladiator !== 'Maximus' && gladiator !== 'Spartacus'" block variant="success" @click="emitToParent(null)">Confirm</b-button>
+        <div style="position: absolute; bottom: 0; margin: 1rem; width: 90%;">
+            <b-button v-if="confirmed" block disabled>Confirmed</b-button>
+            <b-button v-else-if="(gladiator === 'Maximus' || gladiator === 'Spartacus') && option" block variant="success" @click="emitGladiatorToParent(option)">Confirm</b-button>
+            <b-button v-else-if="gladiator && gladiator !== 'Maximus' && gladiator !== 'Spartacus'" block variant="success" @click="emitGladiatorToParent(null)">Confirm</b-button>
+            <b-button v-else-if="type.id === 'ANIMALS' && animals.find(animal => animal.quantity !== null)" block variant="success" @click="emitAnimalsToParent()">Confirm</b-button>
         </div>
     </div>
 </template>
@@ -59,16 +73,27 @@
     data() {
       return {
         gladiator: null,
+        animals: [
+          {id: 'BLACKSHEEP', name: 'Black Sheep', quantity: null},
+          {id: 'TIGER', name: 'Tiger', quantity: null},
+          {id: 'LION', name: 'Lion', quantity: null}
+        ],
         option: null,
         confirmed: false
       }
     },
     methods: {
-      emitToParent (gladiatorOption) {
+      emitGladiatorToParent (gladiatorOption) {
         this.confirmed = true
         const gladiatorId = this.type.characters.find(obj => obj.name == this.gladiator).id
         const typeId = this.type.id
         this.$emit('cardToParent', {typeId, gladiatorId, gladiatorOption})
+      },
+      emitAnimalsToParent (event) {
+        this.confirmed = true
+        for (let animal of this.animals) {
+          this.$emit('cardToParent', {typeId: 'ANIMALS', animalId: animal.id, animalQuantity: animal.quantity})
+        }
       }
     }
   }
