@@ -10,9 +10,9 @@
 
             <b-container class="col-8">
                 <b-row align-h="center">
-                    <EmperorCard :type="types[oldest.first]"/>
-                    <EmperorCard :type="types[oldest.second]"/>
-                    <EmperorCard v-id="oldest.withAnimal" :type="animalType"/>
+                    <EmperorCard :type="types[oldest.first]" @cardToParent="onCardClick"/>
+                    <EmperorCard :type="types[oldest.second]" @cardToParent="onCardClick"/>
+                    <EmperorCard v-if="oldest.withAnimal" :type="animalType"/>
                 </b-row>
             </b-container>
 
@@ -29,11 +29,9 @@
 
   export default {
     name: 'emperor',
-
     components: {
       EmperorCard
     },
-
     apollo: {
       oldest: {
         query: gql`query {
@@ -46,7 +44,6 @@
         update: data => data.oldest
       }
     },
-
     data() {
       return {
         oldest: {},
@@ -58,5 +55,11 @@
                 the Ludus.`,
       }
     },
+    methods: {
+      // Triggered when `childToParent` event is emitted by the child.
+      onCardClick (value) {
+        console.log(value)
+      }
+    }
   }
 </script>
