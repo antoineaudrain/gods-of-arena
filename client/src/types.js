@@ -15,8 +15,8 @@ const Types = {
     name: 'Spearmen',
     id: 'SPEARMEN',
     characters: [
-      'Ganicus',
-      'Crixus'
+      {id: 'GARNICUS', name: 'Ganicus'},
+      {id: 'CRIXUS', name: 'Crixus'}
     ]
   },
   HORSEMEN: {
@@ -24,8 +24,8 @@ const Types = {
     name: 'Horsemen',
     id: 'HORSEMEN',
     characters: [
-      'Jeanclaudedus',
-      'Spiculus'
+      {id: 'JEANCLAUDEDUS', name: 'Jeanclaudedus'},
+      {id: 'SPICULUS', name: 'Spiculus'}
     ]
   },
   BOWMEN: {
@@ -33,8 +33,8 @@ const Types = {
     name: 'Bowmen',
     id: 'BOWMEN',
     characters: [
-      'Commodus',
-      'Flamma'
+      {id: 'COMMODUS', name: 'Commodus'},
+      {id: 'FLAMMA', name: 'Flamma'}
     ]
   }
 }
@@ -44,9 +44,9 @@ const AnimalType = {
     name: 'Animals',
     id: 'ANIMALS',
     characters: [
-      'Black Sheep',
-      'Tiger',
-      'Lion'
+      {id: 'BLACKSHEEP', name: 'Black Sheep'},
+      {id: 'TIGER', name: 'Tiger'},
+      {id: 'LION', name: 'Lion'}
     ]
 }
 

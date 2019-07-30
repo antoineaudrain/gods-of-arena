@@ -6,16 +6,20 @@
             <p>{{comment}}</p>
         </div>
 
-        <div class="row">
+        <div class="row" v-if="oldestScheduledBattle">
 
             <b-container class="col-8">
                 <b-row align-h="center">
-                    <GladiatorCard :type="types[oldest.first]" @cardToParent="onCardClick"/>
-                    <GladiatorCard :type="types[oldest.second]" @cardToParent="onCardClick"/>
-                    <GladiatorCard v-if="oldest.withAnimal" :type="animalType"/>
+                    <GladiatorCard :type="types[oldestScheduledBattle.first]" @cardToParent="onCardClick"/>
+                    <GladiatorCard :type="types[oldestScheduledBattle.second]" @cardToParent="onCardClick"/>
+                    <GladiatorCard v-if="oldestScheduledBattle.withAnimal" :type="animalType"/>
                 </b-row>
             </b-container>
 
+        </div>
+
+        <div v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 15rem;">
+            <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
         </div>
 
         <div class="separator"/>
@@ -36,19 +40,21 @@
       oldestScheduledBattle: {
         query: gql`query {
           oldestScheduledBattle{
+            withAnimal
             first
             second
-            withAnimal
           }
         }`,
-        update: data => data.oldest
+        update: data => data.oldestScheduledBattle
       }
     },
     data() {
       return {
-        oldest: {},
+        oldestScheduledBattle: undefined,
         types: Types,
         animalType: AnimalType,
+
+        battle: [],
 
         title: `Select 2 characters`,
         comment: `The Emperor needs to decide which gladiators will fight in the Arena from the previous type selection made by
@@ -56,9 +62,9 @@
       }
     },
     methods: {
-      // Triggered when `childToParent` event is emitted by the child.
       onCardClick (value) {
-        console.log(value)
+        this.battle = [...this.battle, value]
+        console.log(this.battle)
       }
     }
   }
