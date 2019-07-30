@@ -2,7 +2,7 @@ const Types = {
   SWORDSMEN: {
     img: 'https://i.ibb.co/Ht80XDR/Epe-iste.jpg',
     name: 'Swordsmen',
-    type: 'SWORDSMEN',
+    id: 'SWORDSMEN',
     characters: [
       'Maximus',
       'Spartacus',
@@ -13,7 +13,7 @@ const Types = {
   SPEARMEN: {
     img: 'https://i.ibb.co/QYF18qs/Lancier.jpg',
     name: 'Spearmen',
-    type: 'SPEARMEN',
+    id: 'SPEARMEN',
     characters: [
       'Ganicus',
       'Crixus'
@@ -22,7 +22,7 @@ const Types = {
   HORSEMEN: {
     img: 'https://i.ibb.co/phCRZ9n/Cavalier.jpg',
     name: 'Horsemen',
-    type: 'HORSEMEN',
+    id: 'HORSEMEN',
     characters: [
       'Jeanclaudedus',
       'Spiculus'
@@ -31,7 +31,7 @@ const Types = {
   BOWMEN: {
     img: 'https://i.ibb.co/MsMnvnd/Archer.jpg',
     name: 'Bowmen',
-    type: 'BOWMEN',
+    id: 'BOWMEN',
     characters: [
       'Commodus',
       'Flamma'
@@ -39,21 +39,20 @@ const Types = {
   }
 }
 
-const OptionType = {
-  ANIMALS: {
+const AnimalType = {
     img: 'https://i.ibb.co/5K0bHRf/Animal.jpg',
     name: 'Animals',
+    id: 'ANIMALS',
     characters: [
       'Black Sheep',
       'Tiger',
       'Lion'
     ]
-  }
 }
 
 const typesNames = Object.keys(Types).map(e => e[0])
 
 
 export {
-  Types, OptionType, typesNames
+  Types, AnimalType, typesNames
 }
