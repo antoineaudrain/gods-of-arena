@@ -3,49 +3,44 @@
 
         <div v-if="oldestScheduledBattle">
 
-            <div class="row">
-                <div style="margin-left: 8rem; margin-right: 8rem;">
-                    <h1 class="mt-4">{{title}}</h1>
-                    <p>{{comment}}</p>
-                </div>
-
-                <b-container class="col-8">
-                    <b-row align-h="center">
-                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first]"
-                                                @cardToParent="onCardConfirmed"/>
-                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second]"
-                                                @cardToParent="onCardConfirmed"/>
-                        <GladiatorSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType"
-                                                @cardToParent="onCardConfirmed"/>
-                    </b-row>
-                </b-container>
+            <div style="margin-left: 8rem; margin-right: 8rem;">
+                <h1 class="mt-4">{{title}}</h1>
+                <p>{{animalType}}</p>
+                <p>{{selected}}</p>
             </div>
+
+            <b-row class="justify-content-md-center">
+                <GladiatorSelectionCard :type="types[oldestScheduledBattle.first], selected" @cardToParent="onCardConfirmed"/>
+                <GladiatorSelectionCard :type="types[oldestScheduledBattle.second], selected" @cardToParent="onCardConfirmed"/>
+                <AnimalSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType, selected" @cardToParent="onCardConfirmed"/>
+            </b-row>
 
             <div class="separator"/>
 
-            <b-row align-h="center mt-4">
-                <b-button v-if="battle.length === (oldestScheduledBattle.withAnimal ? 3 : 2)" variant="success"
+            <b-row class="justify-content-md-center">
+                <b-button v-if="selected.length === (oldestScheduledBattle.withAnimal ? 3 : 2)" variant="success"
                           @click="onBattleConfirmed">Confirm Selection
                 </b-button>
             </b-row>
 
         </div>
 
-        <div v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 20rem;">
+        <b-row v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 20rem;">
             <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
-        </div>
+        </b-row>
     </div>
 </template>
 
 <script>
   import gql from 'graphql-tag'
   import {Types, AnimalType} from '../types'
-  import {GladiatorSelectionCard} from '../components/index'
+  import {GladiatorSelectionCard, AnimalSelectionCard} from '../components/index'
 
   export default {
     name: 'emperor',
     components: {
-      GladiatorSelectionCard
+      GladiatorSelectionCard,
+      AnimalSelectionCard
     },
     apollo: {
       oldestScheduledBattle: {
@@ -65,7 +60,7 @@
         types: Types,
         animalType: AnimalType,
 
-        battle: [],
+        selected: [],
 
         title: `Select 2 characters`,
         comment: `The Emperor needs to decide which gladiators will fight in the Arena from the previous type selection made by
@@ -74,7 +69,7 @@
     },
     methods: {
       onCardConfirmed(value) {
-        this.battle = [...this.battle, value]
+        this.selected = [...this.selected, value]
       },
       insertBattle(first, second, animals) {
         return this.$apollo.mutate({
@@ -89,8 +84,10 @@
         });
       },
       onBattleConfirmed() {
-        console.log(this.battle)
-        this.insertBattle(this.battle[0], this.battle[1], this.battle[2])
+        const animals = this.selected.find(obj => obj.typeId == this.animalType.id).animalsArray
+        const gladiators = this.selected.filter(obj => obj.typeId !== this.animalType.id);
+        this.insertBattle(gladiators[0], gladiators[1], animals)
+        this.selected = []
       }
     }
   }

@@ -6,7 +6,7 @@
             <p>{{comment}}</p>
         </div>
 
-        <b-row align-h="center">
+        <b-row class="justify-content-md-center">
             <div :class="'m-3 card ' + (selected[type.id] ? 'card-selected' : '')" v-for="(type, index) in types"
                  :key="index">
                 <figure>
@@ -39,7 +39,7 @@
         </b-row>
         <div class="separator"/>
 
-        <b-row align-h="center mt-4">
+        <b-row class="justify-content-md-center mt-4">
             <b-button v-if="numberOfSelected() === 2" variant="success" @click="onScheduledBattleConfirmed(withAnimal)">Confirm Selection
             </b-button>
         </b-row>

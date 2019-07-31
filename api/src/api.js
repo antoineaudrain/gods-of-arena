@@ -32,6 +32,7 @@ const typeDefs = gql`
     }
     
     enum Option {
+        NONE
         ONE
         TWO
     }
@@ -43,7 +44,6 @@ const typeDefs = gql`
     }
     
     input animal {
-        typeId: String!
         animalId: Animal!
         animalQuantity: Int!
     }
@@ -62,6 +62,7 @@ const typeDefs = gql`
     
     type Query {
         oldestScheduledBattle: ScheduledBattle
+        scheduledBattleQuantity: Int
         battles(page: Int, amount: Int): [Battle]
     }
 
@@ -122,6 +123,19 @@ const resolvers = {
         withAnimal: result['with_animal'],
         first: result['first_type'],
         second: result['second_type']
+      }
+    },
+
+    /**
+     *
+     * @param _
+     * @returns {Promise<{count: *}>}
+     */
+    scheduledBattleQuantity: async (_, {}) => {
+      let result = (await client.query(`SELECT COUNT(*) FROM scheduled_battles;`)).rows[0]
+
+      return {
+        count: result['count']
       }
     },
 
