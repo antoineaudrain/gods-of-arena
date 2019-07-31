@@ -15,6 +15,9 @@
   export default {
     name: 'home',
 
+      mounted() {
+
+      },
     data() {
       return {
         title: `Gods of Arena`,

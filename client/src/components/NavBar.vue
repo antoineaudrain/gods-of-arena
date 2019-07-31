@@ -17,7 +17,24 @@
 
 
 <script>
+  import gql from 'graphql-tag'
+
   export default {
     name: 'NavBar',
+
+    apollo: {
+      scheduledBattleQuantity: {
+        query: gql`query {
+          scheduledBattleQuantity
+        }`,
+        update: data => data.count
+      }
+    },
+
+    data() {
+      return {
+        count: undefined
+      }
+    },
   }
 </script>

@@ -1,3 +1,5 @@
+const {gql} = require('apollo-server');
+
 const typeDefs = gql`
     enum Type {
         BOWMEN
@@ -6,7 +8,7 @@ const typeDefs = gql`
         SPEARMEN
     }
 
-    enum Character {
+    enum Gladiator {
         COMMODUS
         FLAMMA
 
@@ -28,9 +30,21 @@ const typeDefs = gql`
         LION
     }
     
+    enum Option {
+        NONE
+        ONE
+        TWO
+    }
+    
     input battle {
-        type: Type!
-        character: Character!
+        typeId: Type!
+        gladiatorId: Gladiator!
+        gladiatorOption: Option!
+    }
+    
+    input animal {
+        animalId: Animal!
+        animalQuantity: Int!
     }
 
     type ScheduledBattle {
@@ -40,18 +54,21 @@ const typeDefs = gql`
     }
     
     type Battle {
-        first: Character!
-        second: Character!
+        first: Gladiator!
+        second: Gladiator!
         animals: [Animal]!
     }
     
     type Query {
         oldestScheduledBattle: ScheduledBattle
+        scheduledBattleQuantity: Int
         battles(page: Int, amount: Int): [Battle]
     }
 
     type Mutation {
         scheduleBattle(first: Type!, second: Type!, withAnimal: Boolean!): Boolean
-        battle(first: battle!, second: battle!, animals: [Animal]!): Boolean
+        battle(first: battle!, second: battle!, animals: [animal]!): Boolean
     }
 `
+
+module.exports = typeDefs

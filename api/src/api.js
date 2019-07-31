@@ -1,113 +1,10 @@
-const {ApolloServer, gql} = require('apollo-server');
+const {ApolloServer} = require('apollo-server');
 const client = require("./db/postgres");
-
-const typeDefs = gql`
-    enum Type {
-        BOWMEN
-        HORSEMEN
-        SWORDSMEN
-        SPEARMEN
-    }
-
-    enum Gladiator {
-        COMMODUS
-        FLAMMA
-
-        JEANCLAUDEDUS
-        SPICULUS
-
-        MAXIMUS
-        SPARTACUS
-        PRISCUS
-        POLLUX
-
-        GANICUS
-        CRIXUS
-    }
-
-    enum Animal {
-        BLACKSHEEP
-        TIGER
-        LION
-    }
-    
-    enum Option {
-        NONE
-        ONE
-        TWO
-    }
-    
-    input battle {
-        typeId: Type!
-        gladiatorId: Gladiator!
-        gladiatorOption: Option!
-    }
-    
-    input animal {
-        animalId: Animal!
-        animalQuantity: Int!
-    }
-
-    type ScheduledBattle {
-        first: Type!
-        second: Type!
-        withAnimal: Boolean!
-    }
-    
-    type Battle {
-        first: Gladiator!
-        second: Gladiator!
-        animals: [Animal]!
-    }
-    
-    type Query {
-        oldestScheduledBattle: ScheduledBattle
-        scheduledBattleQuantity: Int
-        battles(page: Int, amount: Int): [Battle]
-    }
-
-    type Mutation {
-        scheduleBattle(first: Type!, second: Type!, withAnimal: Boolean!): Boolean
-        battle(first: battle!, second: battle!, animals: [animal]!): Boolean
-    }
-`
+const typeDefs = require('./schema/schema')
+const Mutation = require('./mutations')
 
 const resolvers = {
-  Mutation: {
-    /**
-     * @param _
-     * @param first {Number}
-     * @param second {Number}
-     * @param withAnimal {Number}
-     * @return {Boolean}
-     */
-    scheduleBattle: (_, {first, second, withAnimal}) => {
-      client.query(`
-        INSERT INTO scheduled_battles (first_type, second_type, with_animal)
-        VALUES($1, $2, $3);`,
-        [first, second, withAnimal]).catch((err) => {
-        console.log(err)
-      })
-      return true
-    },
-
-    /**
-     * @param _
-     * @param first {{type: Number, gladiator: Number}}
-     * @param second {{type: Number, gladiator: Number}}
-     * @param animals {Array}
-     * @return {Boolean}
-     */
-    battle: (_, {first, second, animals}) => {
-      client.query(`
-        INSERT INTO battles (first_gladiator, second_gladiator, animals)
-        VALUES($1, $2, $3::text[]);`,
-        [first, second, animals]).catch((err) => {
-        console.log(err)
-      })
-      return true
-    },
-  },
+  Mutation,
 
   Query: {
     /**
@@ -134,9 +31,7 @@ const resolvers = {
     scheduledBattleQuantity: async (_, {}) => {
       let result = (await client.query(`SELECT COUNT(*) FROM scheduled_battles;`)).rows[0]
 
-      return {
-        count: result['count']
-      }
+      return result['count'] || null
     },
 
     /**

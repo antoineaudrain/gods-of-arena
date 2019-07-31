@@ -5,7 +5,7 @@
 
             <div style="margin-left: 8rem; margin-right: 8rem;">
                 <h1 class="mt-4">{{title}}</h1>
-                <p>{{animalType}}</p>
+                <p>{{comment}}</p>
                 <p>{{selected}}</p>
             </div>
 
@@ -25,7 +25,7 @@
 
         </div>
 
-        <b-row v-else style="margin-left: 8rem; margin-right: 8rem; margin-top: 20rem;">
+        <b-row v-else class="justify-content-md-center" style="margin-top: 20rem;">
             <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
         </b-row>
     </div>
@@ -84,7 +84,7 @@
         });
       },
       onBattleConfirmed() {
-        const animals = this.selected.find(obj => obj.typeId == this.animalType.id).animalsArray
+        const animals = this.selected.find(obj => obj.typeId == this.animalType.id).animalsArray || [{ "animalId": "BLACKSHEEP", "animalQuantity": 0 }, { "animalId": "TIGER", "animalQuantity": 0 }, { "animalId": "LION", "animalQuantity": 0 }]
         const gladiators = this.selected.filter(obj => obj.typeId !== this.animalType.id);
         this.insertBattle(gladiators[0], gladiators[1], animals)
         this.selected = []

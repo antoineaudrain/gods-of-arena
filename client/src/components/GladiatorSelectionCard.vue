@@ -12,17 +12,12 @@
 
         <b-col class="character-selection p-4">
 
-            <b-form-select v-if="isSelected()" disabled v-model="gladiator" :options="type.characters.map(e => e.name)"></b-form-select>
-            <b-form-select v-else v-model="gladiator" :options="type.characters.map(e => e.name)">
+            <b-form-select v-model="gladiator" :options="type.characters.map(e => e.name)" :disabled="isSelected()">
                     <option slot="first" :value="null" disabled>-- Please select a gladiator --</option>
             </b-form-select>
 
             <b-col class="mt-4" v-if="gladiator === 'Maximus' || gladiator === 'Spartacus'">
-                <b-form-group v-if="isSelected()" disabled >
-                    <b-form-radio v-model="gladiatorOption" value="ONE">One Handed Sword</b-form-radio>
-                    <b-form-radio v-model="gladiatorOption" value="TWO">Two Handed Sword</b-form-radio>
-                </b-form-group>
-                <b-form-group v-else>
+                <b-form-group :disabled="isSelected()">
                     <b-form-radio v-model="gladiatorOption" value="ONE">One Handed Sword</b-form-radio>
                     <b-form-radio v-model="gladiatorOption" value="TWO">Two Handed Sword</b-form-radio>
                 </b-form-group>
