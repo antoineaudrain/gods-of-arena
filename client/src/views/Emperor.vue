@@ -11,9 +11,12 @@
 
                 <b-container class="col-8">
                     <b-row align-h="center">
-                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first]" @cardToParent="onCardConfirmed"/>
-                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second]" @cardToParent="onCardConfirmed"/>
-                        <GladiatorSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType" @cardToParent="onCardConfirmed"/>
+                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first]"
+                                                @cardToParent="onCardConfirmed"/>
+                        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second]"
+                                                @cardToParent="onCardConfirmed"/>
+                        <GladiatorSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType"
+                                                @cardToParent="onCardConfirmed"/>
                     </b-row>
                 </b-container>
             </div>
@@ -21,7 +24,9 @@
             <div class="separator"/>
 
             <b-row align-h="center mt-4">
-                <b-button v-if="battle.length === (oldestScheduledBattle.withAnimal ? 5 : 3)" variant="success" @click="onBattleConfirmed">Confirm Selection</b-button>
+                <b-button v-if="battle.length === (oldestScheduledBattle.withAnimal ? 3 : 2)" variant="success"
+                          @click="onBattleConfirmed">Confirm Selection
+                </b-button>
             </b-row>
 
         </div>
@@ -68,25 +73,24 @@
       }
     },
     methods: {
-      onCardConfirmed (value) {
+      onCardConfirmed(value) {
         this.battle = [...this.battle, value]
       },
-      insertBattle(types, withAnimal) {
-        let [first, second] = Object.keys(types).filter((k) => types[k])
-
+      insertBattle(first, second, animals) {
         return this.$apollo.mutate({
-          mutation: gql`mutation($first: Type!, $second: Type!, $withAnimal: Boolean!) {
-                                 scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
+          mutation: gql`mutation($first: battle!, $second: battle!, $animals: [animal]!) {
+                                 battle(first: $first, second: $second, animals: $animals)
                                 }`,
           variables: {
             first,
             second,
-            withAnimal
+            animals
           },
         });
       },
-      onBattleConfirmed () {
-        console.log('QUERY HERE')
+      onBattleConfirmed() {
+        console.log(this.battle)
+        this.insertBattle(this.battle[0], this.battle[1], this.battle[2])
       }
     }
   }

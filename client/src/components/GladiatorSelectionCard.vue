@@ -43,12 +43,12 @@
 
             <div style="margin-top: 1rem; align-self: center;" v-if="gladiator === 'Maximus' || gladiator === 'Spartacus'">
                 <b-form-group v-if="confirmed" disabled >
-                    <b-form-radio v-model="option" value="one handed sword">One Handed Sword</b-form-radio>
-                    <b-form-radio v-model="option" value="two handed sword">Two Handed Sword</b-form-radio>
+                    <b-form-radio v-model="option" value="ONE">One Handed Sword</b-form-radio>
+                    <b-form-radio v-model="option" value="TWO">Two Handed Sword</b-form-radio>
                 </b-form-group>
                 <b-form-group v-else>
-                    <b-form-radio v-model="option" value="one handed sword">One Handed Sword</b-form-radio>
-                    <b-form-radio v-model="option" value="two handed sword">Two Handed Sword</b-form-radio>
+                    <b-form-radio v-model="option" value="ONE">One Handed Sword</b-form-radio>
+                    <b-form-radio v-model="option" value="TWO">Two Handed Sword</b-form-radio>
                 </b-form-group>
             </div>
 
@@ -91,9 +91,11 @@
       },
       emitAnimalsToParent (event) {
         this.confirmed = true
+        let animalsArray =  []
         for (let animal of this.animals) {
-          this.$emit('cardToParent', {typeId: 'ANIMALS', animalId: animal.id, animalQuantity: animal.quantity})
+          animalsArray = [...animalsArray, {typeId: 'ANIMALS', animalId: animal.id, animalQuantity: animal.quantity}]
         }
+        this.$emit('cardToParent', animalsArray)
       }
     }
   }

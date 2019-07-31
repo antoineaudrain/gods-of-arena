@@ -9,7 +9,7 @@ const typeDefs = gql`
         SPEARMEN
     }
 
-    enum Character {
+    enum Gladiator {
         COMMODUS
         FLAMMA
 
@@ -31,9 +31,21 @@ const typeDefs = gql`
         LION
     }
     
+    enum Option {
+        ONE
+        TWO
+    }
+    
     input battle {
-        type: Type!
-        character: Character!
+        typeId: Type!
+        gladiatorId: Gladiator!
+        gladiatorOption: Option!
+    }
+    
+    input animal {
+        typeId: String!
+        animalId: Animal!
+        animalQuantity: Int!
     }
 
     type ScheduledBattle {
@@ -43,8 +55,8 @@ const typeDefs = gql`
     }
     
     type Battle {
-        first: Character!
-        second: Character!
+        first: Gladiator!
+        second: Gladiator!
         animals: [Animal]!
     }
     
@@ -55,7 +67,7 @@ const typeDefs = gql`
 
     type Mutation {
         scheduleBattle(first: Type!, second: Type!, withAnimal: Boolean!): Boolean
-        battle(first: battle!, second: battle!, animals: [Animal]!): Boolean
+        battle(first: battle!, second: battle!, animals: [animal]!): Boolean
     }
 `
 
@@ -80,13 +92,19 @@ const resolvers = {
 
     /**
      * @param _
-     * @param first {{type: Number, character: Number}}
-     * @param second {{type: Number, character: Number}}
+     * @param first {{type: Number, gladiator: Number}}
+     * @param second {{type: Number, gladiator: Number}}
      * @param animals {Array}
      * @return {Boolean}
      */
     battle: (_, {first, second, animals}) => {
-
+      client.query(`
+        INSERT INTO battles (first_gladiator, second_gladiator, animals)
+        VALUES($1, $2, $3::text[]);`,
+        [first, second, animals]).catch((err) => {
+        console.log(err)
+      })
+      return true
     },
   },
 

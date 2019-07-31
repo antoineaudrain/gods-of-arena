@@ -15,7 +15,7 @@ const Types = {
     name: 'Spearmen',
     id: 'SPEARMEN',
     characters: [
-      {id: 'GARNICUS', name: 'Ganicus'},
+      {id: 'GANICUS', name: 'Ganicus'},
       {id: 'CRIXUS', name: 'Crixus'}
     ]
   },
