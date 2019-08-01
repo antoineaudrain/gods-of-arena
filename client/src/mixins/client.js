@@ -22,21 +22,6 @@ const client = {
       }
     },
 
-    async getScheduledBattleQuantity() {
-      try {
-        return (await this.$apollo.query({
-          query: gql`
-          query {
-            scheduledBattleQuantity
-          }`,
-          variables: {},
-        })).data.scheduledBattleQuantity;
-      } catch (e) {
-        console.log(`[error] graphql query getScheduledBattleQuantity ${e}`)
-        return undefined
-      }
-    },
-
     async insertScheduledBattle(types, withAnimal) {
       let [first, second] = Object.keys(types).filter((k) => types[k])
 
@@ -73,6 +58,15 @@ const client = {
         console.log(`[error] graphql query insertBattle ${e}`)
       }
     },
+
+    subscriptionScheduledBattleCount() {
+      return this.$apollo.subscribe({
+        query: gql`
+        subscription{
+          scheduledBattleCount 
+        }`
+      })
+    }
   }
 }
 

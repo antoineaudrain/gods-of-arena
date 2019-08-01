@@ -1,5 +1,5 @@
 <template>
-  <div :class="'m-3 card ' + (isSelected() ? 'card-selected' : '')">
+  <div :class="'m-3 card ' + (confirmed ? 'card-selected' : '')">
     <figure>
       <img :src="getAnimalsType().img" style="width:100%">
     </figure>
@@ -15,10 +15,11 @@
       <b-form inline class="justify-content-md-between m-2" v-for="(animal, index) in getAnimalsType().characters"
               :key="index">
         <label class="mr-sm-2">{{animal.name}}</label>
-        <b-form-select :disabled="isSelected()"
+        <b-form-select :disabled="confirmed"
                        class="mb-2 mr-sm-2 mb-sm-0"
                        :value="null"
                        v-model="animals[animal.id]"
+                       @change="updateLocalStorage()"
                        :options="{ '1': 'One', '2': 'Two', '3': 'Three' }"
                        id="inline-form-custom-select-pref"
         >
@@ -31,9 +32,11 @@
     <b-row style="position: absolute; bottom: 5rem;" class="card-separator"/>
 
     <b-row style="position: absolute; bottom: 0; margin: 1rem; width: 90%;">
-      <b-button v-if="isSelected()" block disabled>Confirmed</b-button>
+      <b-button v-if="confirmed" block disabled>Confirmed</b-button>
       <b-button v-else-if="animalHasQuantity()" block variant="success"
                 @click="emitToParent()">Confirm
+      </b-button>
+      <b-button v-else block disabled variant="success">Confirm
       </b-button>
     </b-row>
   </div>
@@ -46,14 +49,52 @@
 
   export default {
     name: 'AnimalCard',
+
     props: ['selected'],
+
+    async beforeMount() {
+      const dataFromStorage = JSON.parse(localStorage.getItem('animals'))
+      if (dataFromStorage && dataFromStorage.animals) {
+        this.animals = dataFromStorage.animals
+        this.confirmed = dataFromStorage.confirmed
+      } else {
+        this.animals = this.getDefaultAnimals()
+      }
+    },
+
     data() {
       return {
+        confirmed: this.selected.some(selected => selected.typeId === this.getAnimalsType().id),
         animals: this.getDefaultAnimals()
       }
     },
 
+    watch: {
+      confirmed() {
+        this.updateLocalStorage()
+      },
+      animals() {
+        this.updateLocalStorage()
+      }
+    },
+
+    mounted() {
+      const self = this
+      this.$root.$on('resetSelectionsCards', function () {
+
+        self.confirmed = false
+        self.animals = self.getDefaultAnimals()
+
+        self.$forceUpdate()
+      })
+    },
+
     methods: {
+
+      updateLocalStorage() {
+        localStorage.setItem('animals', JSON.stringify({animals: this.animals, confirmed: this.confirmed}));
+      },
+
       getDefaultAnimals() {
         return AnimalType.characters.reduce((acc, animal) => {
           acc[animal.id] = null
@@ -65,22 +106,18 @@
         return AnimalType
       },
 
-      isSelected() {
-        return this.selected.some(selected => selected.typeId === this.getAnimalsType().id)
-      },
-
       animalHasQuantity() {
         return Object.values(this.animals).some(e => e !== null)
       },
 
       emitToParent() {
+        this.confirmed = true
+        delete this.animals.confirmed
         let animals = Object.entries(this.animals).map(([id, quantity]) => ({
           animalId: id,
           animalQuantity: quantity ? +quantity : 0
         }))
-
         this.$emit('cardToParent', {typeId: 'ANIMALS', animals})
-        this.animals = this.getDefaultAnimals()
       }
     }
   }

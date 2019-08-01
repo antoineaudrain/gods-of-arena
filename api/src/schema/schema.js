@@ -39,13 +39,14 @@ const typeDefs = gql`
     input battle {
         typeId: Type!
         gladiatorId: Gladiator!
-        gladiatorOption: Option!
+        option: Option!
     }
     
     input animal {
         animalId: Animal!
         animalQuantity: Int!
     }
+    
 
     type ScheduledBattle {
         id: String!
@@ -60,9 +61,12 @@ const typeDefs = gql`
         animals: [Animal]!
     }
     
+    type Subscription {
+      scheduledBattleCount: Int!
+    }
+    
     type Query {
         oldestScheduledBattle: ScheduledBattle
-        scheduledBattleQuantity: Int
         battles(page: Int, amount: Int): [Battle]
     }
 

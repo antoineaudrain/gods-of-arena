@@ -9,11 +9,13 @@
       </div>
 
       <b-row class="justify-content-md-center">
-        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first], selected"
+        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first]" :selected="selected"
                                 @cardToParent="onCardConfirmed"/>
-        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second], selected"
+
+        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second]" :selected="selected"
                                 @cardToParent="onCardConfirmed"/>
-        <AnimalSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType, selected"
+
+        <AnimalSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType" :selected="selected"
                              @cardToParent="onCardConfirmed"/>
       </b-row>
 
@@ -49,6 +51,14 @@
 
     async beforeMount() {
       this.oldestScheduledBattle = await this.getOldestScheduledBattle()
+      const dataFromStorage = JSON.parse(localStorage.getItem('selected'))
+      if (dataFromStorage) {
+        this.selected = dataFromStorage
+      }
+    },
+
+    async beforeUpdate() {
+      localStorage.setItem('selected', JSON.stringify(this.selected));
     },
 
     data() {
@@ -66,21 +76,29 @@
     },
     methods: {
       onCardConfirmed(value) {
+        delete value.confirmed
         this.selected = [...this.selected, value]
       },
 
       async onBattleConfirmed() {
-
         try {
+          localStorage.clear()
+
           const animals = this.oldestScheduledBattle.withAnimal
             ? this.selected.find(obj => obj.typeId === this.animalType.id).animals
             : AnimalType.characters.map(e => ({animalId: e.id, animalQuantity: 0}))
 
           const gladiators = this.selected.filter(obj => obj.typeId !== this.animalType.id);
+
           await this.insertBattle(this.oldestScheduledBattle.id, gladiators[0], gladiators[1], animals)
-          this.selected = []
+
           this.oldestScheduledBattle = await this.getOldestScheduledBattle()
           this.notifications().success("Battle successfully set")
+
+          this.selected = []
+
+          this.$root.$emit('resetSelectionsCards', {})
+
         } catch (e) {
           this.notifications().failure("Something wrong while configuring the battle")
         }

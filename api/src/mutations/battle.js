@@ -1,8 +1,13 @@
 const client = require("../db/postgres")
 const uuidv4 = require('uuid/v4')
+const {scheduledBattleCountPubSub, SCHEDULED_BATTLE_ADDED} = require('../subscriptions/scheduledBattleCount')
+
+async function getCount() {
+  let result = (await client.query(`SELECT COUNT(*) FROM scheduled_battles;`)).rows[0]
+  return +(result['count'])
+}
 
 const battle = async (_, {id, first, second, animals}) => {
-  console.log(id, first, second, animals)
   const [firstId, secondId, animalId] = [uuidv4(), uuidv4(), uuidv4()]
   const hasAnimals = animals.some(e => e.animalQuantity !== 0)
 
@@ -13,6 +18,11 @@ const battle = async (_, {id, first, second, animals}) => {
     await insertAnimals(hasAnimals, animalId, animals)
     await insertBattle(firstId, secondId, hasAnimals, animalId)
     await deleteOldestBattleScheduled(id)
+
+    const count = await getCount()
+    scheduledBattleCountPubSub.publish(SCHEDULED_BATTLE_ADDED, {
+      scheduledBattleCount: count
+    });
 
     await client.query('COMMIT')
 
@@ -25,8 +35,8 @@ const battle = async (_, {id, first, second, animals}) => {
 
 const insertGladiators = async (firstId, first, secondId, second) => {
   const insertGladiatorText = 'INSERT INTO gladiators(id, character, metadata) VALUES ($1, $2, $3)'
-  const insertFirstGladiatorValues = [firstId, first.gladiatorId, {sword: first.gladiatorOption}]
-  const insertSecondGladiatorValues = [secondId, second.gladiatorId, {sword: second.gladiatorOption}]
+  const insertFirstGladiatorValues = [firstId, first.gladiatorId, {sword: first.option}]
+  const insertSecondGladiatorValues = [secondId, second.gladiatorId, {sword: second.option}]
   await client.query(insertGladiatorText, insertFirstGladiatorValues)
   await client.query(insertGladiatorText, insertSecondGladiatorValues)
 }
