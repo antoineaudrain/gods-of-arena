@@ -1,12 +1,12 @@
 <template>
-    <div class="main">
+  <div class="main">
 
-        <div style="margin-left: 8rem; margin-right: 8rem;">
-            <h1 class="mt-4">{{title}}</h1>
-            <p>{{comment}}</p>
-        </div>
-
+    <div style="margin-left: 8rem; margin-right: 8rem;">
+      <h1 class="mt-4">{{title}}</h1>
+      <p>{{comment}}</p>
     </div>
+
+  </div>
 </template>
 
 <script>
@@ -15,9 +15,9 @@
   export default {
     name: 'home',
 
-      mounted() {
+    mounted() {
 
-      },
+    },
     data() {
       return {
         title: `Gods of Arena`,

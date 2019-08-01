@@ -1,4 +1,3 @@
-
 const battle = require('./battle')
 const scheduleBattle = require('./scheduleBattle')
 

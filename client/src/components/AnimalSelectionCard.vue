@@ -12,7 +12,8 @@
 
     <b-col class="character-selection">
 
-      <b-form inline class="justify-content-md-between m-2" v-for="(animal, index) in getAnimalsType().characters" :key="index">
+      <b-form inline class="justify-content-md-between m-2" v-for="(animal, index) in getAnimalsType().characters"
+              :key="index">
         <label class="mr-sm-2">{{animal.name}}</label>
         <b-form-select :disabled="isSelected()"
                        class="mb-2 mr-sm-2 mb-sm-0"
@@ -48,14 +49,18 @@
     props: ['selected'],
     data() {
       return {
-        animals: AnimalType.characters.reduce((acc, animal) => {
-          acc[animal.id] = null
-          return acc
-        }, {}),
+        animals: this.getDefaultAnimals()
       }
     },
 
     methods: {
+      getDefaultAnimals() {
+        return AnimalType.characters.reduce((acc, animal) => {
+          acc[animal.id] = null
+          return acc
+        }, {})
+      },
+
       getAnimalsType() {
         return AnimalType
       },
@@ -75,6 +80,7 @@
         }))
 
         this.$emit('cardToParent', {typeId: 'ANIMALS', animals})
+        this.animals = this.getDefaultAnimals()
       }
     }
   }

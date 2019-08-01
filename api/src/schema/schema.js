@@ -48,6 +48,7 @@ const typeDefs = gql`
     }
 
     type ScheduledBattle {
+        id: String!
         first: Type!
         second: Type!
         withAnimal: Boolean!
@@ -67,7 +68,7 @@ const typeDefs = gql`
 
     type Mutation {
         scheduleBattle(first: Type!, second: Type!, withAnimal: Boolean!): Boolean
-        battle(first: battle!, second: battle!, animals: [animal]!): Boolean
+        battle(id: String!, first: battle!, second: battle!, animals: [animal]!): Boolean
     }
 `
 

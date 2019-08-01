@@ -1,16 +1,18 @@
-const client = require("./db/postgres");
-const uuidv4 = require('uuid/v4');
+const client = require("../db/postgres")
+const uuidv4 = require('uuid/v4')
 
-const battle = async (_, {first, second, animals}) => {
+const battle = async (_, {id, first, second, animals}) => {
+  console.log(id, first, second, animals)
   const [firstId, secondId, animalId] = [uuidv4(), uuidv4(), uuidv4()]
   const hasAnimals = animals.some(e => e.animalQuantity !== 0)
 
   try {
     await client.query('BEGIN')
 
-    await insertGladiators(firstId, first, secondId, second);
-    await insertAnimals(hasAnimals, animalId, animals);
-    await insertBattle(firstId, secondId, hasAnimals, animalId);
+    await insertGladiators(firstId, first, secondId, second)
+    await insertAnimals(hasAnimals, animalId, animals)
+    await insertBattle(firstId, secondId, hasAnimals, animalId)
+    await deleteOldestBattleScheduled(id)
 
     await client.query('COMMIT')
 
@@ -21,7 +23,7 @@ const battle = async (_, {first, second, animals}) => {
   return true
 }
 
-const insertGladiators = async  (firstId, first, secondId, second) => {
+const insertGladiators = async (firstId, first, secondId, second) => {
   const insertGladiatorText = 'INSERT INTO gladiators(id, character, metadata) VALUES ($1, $2, $3)'
   const insertFirstGladiatorValues = [firstId, first.gladiatorId, {sword: first.gladiatorOption}]
   const insertSecondGladiatorValues = [secondId, second.gladiatorId, {sword: second.gladiatorOption}]
@@ -43,9 +45,8 @@ const insertBattle = async (firstId, secondId, hasAnimals, animalId) => {
   await client.query(insertBattleText, insertBattleValues)
 }
 
-const deleteOldestBattleScheduled = async () => {
-  const insertBattleText = 'DELETE FROM scheduled_battles WHERE '
-  await client.query(insertBattleText, insertBattleValues)
+const deleteOldestBattleScheduled = async (id) => {
+  await client.query('DELETE FROM scheduled_battles WHERE id = $1', [id])
 }
 
 module.exports = battle

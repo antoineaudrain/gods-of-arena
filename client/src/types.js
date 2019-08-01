@@ -40,19 +40,16 @@ const Types = {
 }
 
 const AnimalType = {
-    img: 'https://i.ibb.co/5K0bHRf/Animal.jpg',
-    name: 'Animals',
-    id: 'ANIMALS',
-    characters: [
-      {id: 'BLACKSHEEP', name: 'Black Sheep'},
-      {id: 'TIGER', name: 'Tiger'},
-      {id: 'LION', name: 'Lion'}
-    ]
+  img: 'https://i.ibb.co/5K0bHRf/Animal.jpg',
+  name: 'Animals',
+  id: 'ANIMALS',
+  characters: [
+    {id: 'BLACKSHEEP', name: 'Black Sheep'},
+    {id: 'TIGER', name: 'Tiger'},
+    {id: 'LION', name: 'Lion'}
+  ]
 }
 
-const typesNames = Object.keys(Types).map(e => e[0])
-
-
 export {
-  Types, AnimalType, typesNames
+  Types, AnimalType
 }

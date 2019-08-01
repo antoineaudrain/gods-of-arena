@@ -1,10 +1,10 @@
 <template>
-    <div id="app">
-        <NavBar/>
-        <b-container fluid>
-            <router-view/>
-        </b-container>
-    </div>
+  <div id="app">
+    <NavBar/>
+    <b-container fluid>
+      <router-view/>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -19,8 +19,8 @@
 </script>
 
 <style>
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        color: #2c3e50;
-    }
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    color: #2c3e50;
+  }
 </style>

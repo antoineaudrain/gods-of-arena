@@ -18,22 +18,20 @@
 
 <script>
   import gql from 'graphql-tag'
+  import client from "../mixins/client";
 
   export default {
     name: 'NavBar',
 
-    apollo: {
-      scheduledBattleQuantity: {
-        query: gql`query {
-          scheduledBattleQuantity
-        }`,
-        update: data => data.count
-      }
+    mixins: [client],
+
+    async beforeMount() {
+      this.count = this.getScheduledBattleQuantity()
     },
 
     data() {
       return {
-        count: undefined
+        count: 0
       }
     },
   }

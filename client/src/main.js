@@ -11,7 +11,6 @@ Vue.use(VueApollo)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
-
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient,
 })
