@@ -1,7 +1,7 @@
 const notifications = {
   methods: {
     notifications() {
-      const notify = this.$bvToast;
+      const notify = this.$bvToast
       return {
         success(msg) {
           notify.toast(msg, {

@@ -1,13 +1,13 @@
-const client = require("../db/postgres");
-const {PubSub} = require('apollo-server');
+const client = require("../db/postgres")
+const {PubSub} = require('apollo-server')
 
 async function getCount() {
   let result = (await client.query(`SELECT COUNT(*) FROM scheduled_battles;`)).rows[0]
   return +(result['count'])
 }
 
-const scheduledBattleCountPubSub = new PubSub();
-const SCHEDULED_BATTLE_ADDED = 'SCHEDULED_BATTLE_ADDED';
+const scheduledBattleCountPubSub = new PubSub()
+const SCHEDULED_BATTLE_ADDED = 'SCHEDULED_BATTLE_ADDED'
 
 function defaultValue() {
   getCount().then(count => {
@@ -19,7 +19,7 @@ function defaultValue() {
 
 const scheduledBattleCount = {
   subscribe: () => {
-    defaultValue();
+    defaultValue()
     return scheduledBattleCountPubSub.asyncIterator([SCHEDULED_BATTLE_ADDED])
   }
 }

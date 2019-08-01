@@ -1,6 +1,6 @@
-const client = require("../db/postgres");
-const uuidv4 = require('uuid/v4');
 const {scheduledBattleCountPubSub, SCHEDULED_BATTLE_ADDED} = require('../subscriptions/scheduledBattleCount')
+const client = require("../db/postgres")
+const uuidv4 = require('uuid/v4')
 
 async function getCount() {
   let result = (await client.query(`SELECT COUNT(*) FROM scheduled_battles;`)).rows[0]
@@ -16,7 +16,7 @@ const scheduleBattle = async (_, {first, second, withAnimal}) => {
     const count = await getCount()
     scheduledBattleCountPubSub.publish(SCHEDULED_BATTLE_ADDED, {
       scheduledBattleCount: count
-    });
+    })
   } catch (e) {
     throw e
   }

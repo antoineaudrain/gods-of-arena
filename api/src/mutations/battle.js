@@ -1,6 +1,6 @@
+const {scheduledBattleCountPubSub, SCHEDULED_BATTLE_ADDED} = require('../subscriptions/scheduledBattleCount')
 const client = require("../db/postgres")
 const uuidv4 = require('uuid/v4')
-const {scheduledBattleCountPubSub, SCHEDULED_BATTLE_ADDED} = require('../subscriptions/scheduledBattleCount')
 
 async function getCount() {
   let result = (await client.query(`SELECT COUNT(*) FROM scheduled_battles;`)).rows[0]
@@ -22,7 +22,7 @@ const battle = async (_, {id, first, second, animals}) => {
     const count = await getCount()
     scheduledBattleCountPubSub.publish(SCHEDULED_BATTLE_ADDED, {
       scheduledBattleCount: count
-    });
+    })
 
     await client.query('COMMIT')
 

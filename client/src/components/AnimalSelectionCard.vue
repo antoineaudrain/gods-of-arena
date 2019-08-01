@@ -44,8 +44,7 @@
 
 
 <script>
-
-  import {AnimalType} from "../types";
+  import {AnimalType} from "../gladiatorTypes"
 
   export default {
     name: 'AnimalCard',
@@ -81,7 +80,6 @@
     mounted() {
       const self = this
       this.$root.$on('resetSelectionsCards', function () {
-
         self.confirmed = false
         self.animals = self.getDefaultAnimals()
 
@@ -90,7 +88,6 @@
     },
 
     methods: {
-
       updateLocalStorage() {
         localStorage.setItem('animals', JSON.stringify({animals: this.animals, confirmed: this.confirmed}));
       },

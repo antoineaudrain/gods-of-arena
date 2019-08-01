@@ -83,7 +83,7 @@
           gladiator: this.gladiator,
           option: this.option,
           confirmed: this.confirmed
-        }));
+        }))
       },
 
       emitToParent(gladiatorOption) {

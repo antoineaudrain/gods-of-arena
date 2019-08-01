@@ -15,7 +15,7 @@ const client = {
             }
           }`,
           variables: {},
-        })).data.oldestScheduledBattle;
+        })).data.oldestScheduledBattle
       } catch (e) {
         console.log(`[error] graphql query oldestScheduledBattle ${e}`)
         return undefined
@@ -35,7 +35,7 @@ const client = {
             second,
             withAnimal
           },
-        });
+        })
       } catch (e) {
         console.log(`[error] graphql query insertScheduledBattle ${e}`)
       }
@@ -53,7 +53,7 @@ const client = {
             second,
             animals
           },
-        });
+        })
       } catch (e) {
         console.log(`[error] graphql query insertBattle ${e}`)
       }

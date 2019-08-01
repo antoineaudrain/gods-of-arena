@@ -1,4 +1,4 @@
-import {InMemoryCache} from "apollo-cache-inmemory";
+import {InMemoryCache} from "apollo-cache-inmemory"
 import {ApolloClient} from 'apollo-client'
 import {createHttpLink} from 'apollo-link-http'
 import { split } from 'apollo-link'
@@ -37,7 +37,6 @@ const link = split(
   wsLink,
   httpLink
 )
-
 
 // Cache implementation
 const cache = new InMemoryCache()

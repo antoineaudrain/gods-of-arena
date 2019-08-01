@@ -2,19 +2,16 @@
   <div class="main">
 
     <div v-if="oldestScheduledBattle">
-
       <div style="margin-left: 8rem; margin-right: 8rem;">
         <h1 class="mt-4">{{title}}</h1>
         <p>{{comment}}</p>
       </div>
 
       <b-row class="justify-content-md-center">
-        <GladiatorSelectionCard :type="types[oldestScheduledBattle.first]" :selected="selected"
+        <GladiatorSelectionCard :type="gladiatorTypes[oldestScheduledBattle.first]" :selected="selected"
                                 @cardToParent="onCardConfirmed"/>
-
-        <GladiatorSelectionCard :type="types[oldestScheduledBattle.second]" :selected="selected"
+        <GladiatorSelectionCard :type="gladiatorTypes[oldestScheduledBattle.second]" :selected="selected"
                                 @cardToParent="onCardConfirmed"/>
-
         <AnimalSelectionCard v-if="oldestScheduledBattle.withAnimal" :type="animalType" :selected="selected"
                              @cardToParent="onCardConfirmed"/>
       </b-row>
@@ -26,22 +23,23 @@
                   @click="onBattleConfirmed">Confirm Selection
         </b-button>
       </b-row>
-
     </div>
 
     <b-row v-else class="justify-content-md-center" style="margin-top: 20rem;">
       <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
     </b-row>
+
   </div>
 </template>
 
 <script>
-  import {Types, AnimalType} from '../types'
+  import {GladiatorTypes, AnimalType} from '../gladiatorTypes'
   import {GladiatorSelectionCard, AnimalSelectionCard} from '../components/index'
-  import {client, notifications} from "../mixins";
+  import {client, notifications} from "../mixins"
 
   export default {
     name: 'emperor',
+
     components: {
       GladiatorSelectionCard,
       AnimalSelectionCard
@@ -58,13 +56,13 @@
     },
 
     async beforeUpdate() {
-      localStorage.setItem('selected', JSON.stringify(this.selected));
+      localStorage.setItem('selected', JSON.stringify(this.selected))
     },
 
     data() {
       return {
         oldestScheduledBattle: undefined,
-        types: Types,
+        gladiatorTypes: GladiatorTypes,
         animalType: AnimalType,
 
         selected: [],
@@ -74,6 +72,7 @@
                 the Ludus.`,
       }
     },
+
     methods: {
       onCardConfirmed(value) {
         delete value.confirmed
@@ -88,7 +87,7 @@
             ? this.selected.find(obj => obj.typeId === this.animalType.id).animals
             : AnimalType.characters.map(e => ({animalId: e.id, animalQuantity: 0}))
 
-          const gladiators = this.selected.filter(obj => obj.typeId !== this.animalType.id);
+          const gladiators = this.selected.filter(obj => obj.typeId !== this.animalType.id)
 
           await this.insertBattle(this.oldestScheduledBattle.id, gladiators[0], gladiators[1], animals)
 

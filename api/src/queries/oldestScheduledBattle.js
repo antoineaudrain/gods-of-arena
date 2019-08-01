@@ -1,4 +1,4 @@
-const client = require("../db/postgres");
+const client = require("../db/postgres")
 
 const oldestScheduledBattle = async (_, {}) => {
   try {

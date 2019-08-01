@@ -7,8 +7,12 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
+
           <b-nav-item v-on:click="$router.push('/ludus')">Ludus</b-nav-item>
-          <b-nav-item v-on:click="$router.push('/emperor')">Emperor<b-badge v-if="count > 0" class="m-1" pill variant="danger">{{count}}</b-badge></b-nav-item>
+          <b-nav-item v-on:click="$router.push('/emperor')">Emperor
+            <b-badge v-if="count > 0" class="m-1" pill variant="danger">{{count}}</b-badge>
+          </b-nav-item>
+
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -17,7 +21,7 @@
 
 
 <script>
-  import client from "../mixins/client";
+  import client from "../mixins/client"
 
   export default {
     name: 'NavBar',
@@ -27,10 +31,10 @@
     async beforeMount() {
       const self = this
       this.subscriptionScheduledBattleCount().subscribe({
-        next ({data}) {
+        next({data}) {
           self.count = data.scheduledBattleCount
         },
-        error (error) {
+        error(error) {
           console.error(error)
         },
       })

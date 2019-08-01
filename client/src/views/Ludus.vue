@@ -31,11 +31,11 @@
           <img src="https://i.ibb.co/5K0bHRf/Animal.jpg">
         </figure>
         <div class="container m-2">
-          <h4><b>Animal</b></h4>
+          <h4><b>Animals</b></h4>
           <b-button v-if="numberOfSelected() !== 2" disabled>Select</b-button>
-          <b-button v-else-if="withAnimal" variant="success" @click="unselectwithAnimal()">Selected
+          <b-button v-else-if="withAnimal" variant="success" @click="unselectWithAnimal()">Selected
           </b-button>
-          <b-button v-else variant="primary" @click="selectwithAnimal()">Select</b-button>
+          <b-button v-else variant="primary" @click="selectWithAnimal()">Select</b-button>
         </div>
       </div>
     </b-row>
@@ -52,8 +52,8 @@
 </template>
 
 <script>
-  import {Types} from "../types";
-  import {client, notifications} from "../mixins";
+  import {GladiatorTypes} from "../gladiatorTypes"
+  import {client, notifications} from "../mixins"
 
   export default {
     name: 'ludus',
@@ -66,13 +66,13 @@
         withAnimal: false,
 
         title: `Select 2 types of gladiators`,
-        comment: `The Ludus have to choose two classes of opponents out of the 4 made available, Animals are withAnimalal.`,
+        comment: `The Ludus have to choose two classes of opponents out of the 4 made available, Animals are optionals.`,
       }
     },
 
     methods: {
       getTypes() {
-        return Object.entries(Types).map(([_, type]) => type)
+        return Object.entries(GladiatorTypes).map(([_, type]) => type)
       },
 
       selectType(type) {
@@ -85,11 +85,11 @@
         this.$set(this.selected, type, false)
       },
 
-      selectwithAnimal() {
+      selectWithAnimal() {
         this.withAnimal = true
       },
 
-      unselectwithAnimal() {
+      unselectWithAnimal() {
         this.withAnimal = false
       },
 
@@ -150,10 +150,7 @@
 
   .separator {
     border-top: 1px solid lightgrey;
-    margin-left: 8rem;
-    margin-right: 8rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem
+    margin: 2rem 8rem;
   }
 
   .container {
