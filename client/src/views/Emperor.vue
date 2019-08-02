@@ -26,7 +26,7 @@
     </div>
 
     <b-row v-else class="justify-content-md-center" style="margin-top: 20vw;">
-      <h1 style="color: lightgrey; font-size: 9vw;">No Scheduled Battle</h1>
+      <h1 style="color: lightgrey; font-size: 9vw;">No Ludus Selection</h1>
     </b-row>
 
   </div>

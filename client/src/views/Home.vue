@@ -1,14 +1,14 @@
 <template>
   <div class="main">
 
-    <div v-if="battles">
+    <div v-if="battles[0]">
       <div style="margin-left: 5vw; margin-right: 5vw;">
         <h1 class="mt-4" style="font-size:2.5vw;">{{title}}</h1>
         <p style="font-size:1vw;">{{comment}}</p>
       </div>
 
       <b-row class="justify-content-md-center" v-for="(battle, index) in battles">
-        <VersusCard :key="index" :first="battle.first" :second="battle.second"/>
+        <VersusCard :key="index" :first="battle.first" :second="battle.second" :animals="battle.animals"/>
       </b-row>
     </div>
 
@@ -51,7 +51,7 @@
         battles: null,
 
         title: `Welcome to the Arena`,
-        comment: `There will be shown battles chosen by the Ludus and the Emperor`,
+        comment: `There is the scheduled battles chosen by the Ludus and the Emperor`,
       }
     },
   }
