@@ -46,7 +46,6 @@ const typeDefs = gql`
         animalId: Animal!
         animalQuantity: Int!
     }
-    
 
     type ScheduledBattle {
         id: String!
@@ -55,10 +54,19 @@ const typeDefs = gql`
         withAnimal: Boolean!
     }
     
+    type GladiatorMetadata {
+        sword: String!
+    }
+    
+    type GladiatorData {
+        gladiator: Gladiator!
+        metadata: GladiatorMetadata!
+    }
+    
     type Battle {
-        first: Gladiator!
-        second: Gladiator!
-        animals: [Animal]!
+        first: GladiatorData!
+        second: GladiatorData!
+        animals: [Int]!
     }
     
     type Subscription {

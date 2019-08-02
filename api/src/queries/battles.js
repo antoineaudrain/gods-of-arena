@@ -1,16 +1,21 @@
 const client = require("../db/postgres");
 
-const oldestScheduledBattle = async (_, {}) => {
+const battles = async (_, {}) => {
   try {
-    let result = (await client.query(`SELECT first_type, second_type, with_animal FROM scheduled_battles ORDER BY date LIMIT 1;`)).rows[0]
+    let result = (await client.query(`
+        SELECT json_build_object('gladiator' ,g1.character, 'metadata', g1.metadata) AS first,
+               json_build_object('gladiator' ,g2.character, 'metadata', g2.metadata) AS second,
+               json_build_array(a.black_sheep, a.tiger, a.tiger) AS animals
+        FROM battles b
+                 LEFT JOIN gladiators g1 ON b.first = g1.id
+                 LEFT JOIN gladiators g2 ON b.second = g2.id
+                 LEFT JOIN animals a ON b.animals = a.id
+        ORDER BY date
+    `)).rows
+      return result
   } catch (e) {
     throw e
   }
-  return {
-    withAnimal: result['with_animal'],
-    first: result['first_type'],
-    second: result['second_type']
-  }
 }
 
-module.exports = oldestScheduledBattle
+module.exports = battles

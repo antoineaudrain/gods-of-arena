@@ -6,18 +6,48 @@ const client = {
       try {
         return (await this.$apollo.query({
           query: gql`
-          query {
-            oldestScheduledBattle{
-              id
-              withAnimal
-              first
-              second
-            }
-          }`,
+              query {
+                  oldestScheduledBattle{
+                      id
+                      withAnimal
+                      first
+                      second
+                  }
+              }`,
           variables: {},
         })).data.oldestScheduledBattle
       } catch (e) {
         console.log(`[error] graphql query oldestScheduledBattle ${e}`)
+        return undefined
+      }
+    },
+
+    async getBattles() {
+      try {
+        return (await this.$apollo.query({
+          query: gql`
+              query {
+                  battles {
+                      first {
+                          gladiator
+                          metadata {
+                              sword
+                          }
+                      }
+                      second {
+                          gladiator
+                          metadata {
+                              sword
+                          }
+                      }
+                      animals
+                  }
+              }
+          `,
+          variables: {},
+        })).data.battles
+      } catch (e) {
+        console.log(`[error] graphql query getBattles ${e}`)
         return undefined
       }
     },
@@ -28,8 +58,8 @@ const client = {
       try {
         await this.$apollo.mutate({
           mutation: gql`mutation($first: Type!, $second: Type!, $withAnimal: Boolean!) {
-          scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
-        }`,
+              scheduleBattle(first: $first, second: $second, withAnimal: $withAnimal)
+          }`,
           variables: {
             first,
             second,
@@ -45,7 +75,7 @@ const client = {
       try {
         return this.$apollo.mutate({
           mutation: gql`mutation($id: String! $first: battle!, $second: battle!, $animals: [animal]!) {
-            battle(id: $id, first: $first, second: $second, animals: $animals)
+              battle(id: $id, first: $first, second: $second, animals: $animals)
           }`,
           variables: {
             id,
@@ -62,9 +92,9 @@ const client = {
     subscriptionScheduledBattleCount() {
       return this.$apollo.subscribe({
         query: gql`
-        subscription{
-          scheduledBattleCount 
-        }`
+            subscription{
+                scheduledBattleCount
+            }`
       })
     }
   }
