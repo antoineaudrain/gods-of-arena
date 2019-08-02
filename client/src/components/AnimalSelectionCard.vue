@@ -44,7 +44,7 @@
 
 
 <script>
-  import {AnimalType} from "../gladiatorTypes"
+  import {AnimalType} from "../types"
 
   export default {
     name: 'AnimalCard',

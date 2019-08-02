@@ -10,7 +10,7 @@ const battles = async (_, {}) => {
                  LEFT JOIN gladiators g1 ON b.first = g1.id
                  LEFT JOIN gladiators g2 ON b.second = g2.id
                  LEFT JOIN animals a ON b.animals = a.id
-        ORDER BY date
+        ORDER BY date DESC
     `)).rows
       return result
   } catch (e) {

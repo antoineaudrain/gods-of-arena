@@ -2,20 +2,18 @@
   <div class="main">
 
     <div v-if="battles">
-      <div style="margin-left: 8rem; margin-right: 8rem;">
-        <h1 class="mt-4">{{title}}</h1>
-        <p>{{comment}}</p>
+      <div style="margin-left: 5vw; margin-right: 5vw;">
+        <h1 class="mt-4" style="font-size:2.5vw;">{{title}}</h1>
+        <p style="font-size:1vw;">{{comment}}</p>
       </div>
 
-      <b-row class="justify-content-md-center">
-        <VersusCard :first="battles[0].first" :second="battles[0].second"/>
-<!--        <VersusCard/>-->
+      <b-row class="justify-content-md-center" v-for="(battle, index) in battles">
+        <VersusCard :key="index" :first="battle.first" :second="battle.second"/>
       </b-row>
-<!--      {{battles}}-->
     </div>
 
-    <b-row v-else class="justify-content-md-center" style="margin-top: 20rem;">
-      <h1 style="color: lightgrey; font-size: 9rem;">No Scheduled Battle</h1>
+    <b-row v-else class="justify-content-md-center" style="margin-top: 20vw;">
+      <h1 style="color: lightgrey; font-size: 9vw;">No Scheduled Battle</h1>
     </b-row>
 
   </div>

@@ -1,4 +1,4 @@
-const GladiatorTypes = {
+const Types = {
   SWORDSMEN: {
     img: 'https://i.ibb.co/Ht80XDR/Epe-iste.jpg',
     name: 'Swordsmen',
@@ -51,5 +51,5 @@ const AnimalType = {
 }
 
 export {
-  GladiatorTypes, AnimalType
+  Types, AnimalType
 }

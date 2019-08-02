@@ -1,9 +1,9 @@
 <template>
   <div class="main">
 
-    <div style="margin-left: 8rem; margin-right: 8rem;">
-      <h1 class="mt-4">{{title}}</h1>
-      <p>{{comment}}</p>
+    <div style="margin-left: 5vw; margin-right: 5vw;">
+      <h1 class="mt-4" style="font-size:2.5vw;">{{title}}</h1>
+      <p style="font-size:1vw;">{{comment}}</p>
     </div>
 
     <b-row class="justify-content-md-center">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import {GladiatorTypes} from "../gladiatorTypes"
+  import {Types} from "../types"
   import {client, notifications} from "../mixins"
 
   export default {
@@ -72,7 +72,7 @@
 
     methods: {
       getTypes() {
-        return Object.entries(GladiatorTypes).map(([_, type]) => type)
+        return Object.entries(Types).map(([_, type]) => type)
       },
 
       selectType(type) {
