@@ -20,11 +20,9 @@
                        :value="null"
                        v-model="animals[animal.id]"
                        @change="updateLocalStorage()"
-                       :options="{ '1': 'One', '2': 'Two', '3': 'Three' }"
+                       :options="{ '0': 'Choose...','1': 'One', '2': 'Two', '3': 'Three' }"
                        id="inline-form-custom-select-pref"
-        >
-          <option slot="first" :value="null">Choose...</option>
-        </b-form-select>
+        />
       </b-form>
 
     </b-col>
@@ -94,7 +92,7 @@
 
       getDefaultAnimals() {
         return AnimalType.characters.reduce((acc, animal) => {
-          acc[animal.id] = null
+          acc[animal.id] = 0
           return acc
         }, {})
       },

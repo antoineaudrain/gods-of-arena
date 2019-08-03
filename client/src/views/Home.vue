@@ -7,12 +7,14 @@
         <p style="font-size:1vw;">{{comment}}</p>
       </div>
 
-      <b-row class="justify-content-md-center" v-for="(battle, index) in battles">
-        <VersusCard :key="index" :first="battle.first" :second="battle.second" :animals="battle.animals"/>
+      <b-row class="justify-content-center" v-for="(battle, index) in battles">
+        <transition name="slide-fade" appear>
+          <VersusCard :key="index" :first="battle.first" :second="battle.second" :animals="battle.animals"/>
+        </transition>
       </b-row>
     </div>
 
-    <b-row v-else class="justify-content-md-center" style="margin-top: 20vw;">
+    <b-row v-else class="justify-content-center" style="margin-top: 20vw;">
       <h1 style="color: lightgrey; font-size: 9vw;">No Scheduled Battle</h1>
     </b-row>
 
@@ -49,6 +51,7 @@
     data() {
       return {
         battles: null,
+        show: true,
 
         title: `Welcome to the Arena`,
         comment: `There is the scheduled battles chosen by the Ludus and the Emperor`,
@@ -56,3 +59,17 @@
     },
   }
 </script>
+
+<style scoped>
+  .slide-fade-enter-active {
+    transition: all .6s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(-10vw);
+    opacity: 0;
+  }
+</style>

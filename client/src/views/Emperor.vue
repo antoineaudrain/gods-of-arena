@@ -7,7 +7,7 @@
         <p style="font-size:1vw;">{{comment}}</p>
       </div>
 
-      <b-row class="justify-content-md-center">
+      <b-row class="justify-content-center">
         <GladiatorSelectionCard :type="gladiatorTypes[oldestScheduledBattle.first]" :selected="selected"
                                 @cardToParent="onCardConfirmed"/>
         <GladiatorSelectionCard :type="gladiatorTypes[oldestScheduledBattle.second]" :selected="selected"
@@ -18,14 +18,14 @@
 
       <div class="separator"/>
 
-      <b-row class="justify-content-md-center">
+      <b-row class="justify-content-center">
         <b-button v-if="selected.length === (oldestScheduledBattle.withAnimal ? 3 : 2)" variant="success"
                   @click="onBattleConfirmed">Confirm Selection
         </b-button>
       </b-row>
     </div>
 
-    <b-row v-else class="justify-content-md-center" style="margin-top: 20vw;">
+    <b-row v-else class="justify-content-center" style="margin-top: 20vw;">
       <h1 style="color: lightgrey; font-size: 9vw;">No Ludus Selection</h1>
     </b-row>
 

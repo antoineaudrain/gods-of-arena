@@ -7,8 +7,10 @@
       <b-col v-if="isAnimal()" style="padding: 0 !important;"><img :src="animalType.img" style="width:100%"></b-col>
 
       <div style="display: flex; flex-direction: row">
-        <img :class="isAnimal() ? 'centered-left' : 'centered'" src="../../public/versusIcon.png" style="height: 50%; z-index: 1000">
-        <img class="centered-right" v-if="isAnimal()" src="../../public/versusIcon.png" style="height: 50%; z-index: 1000">
+        <img :class="isAnimal() ? 'centered-left' : 'centered'" src="../../public/versusIcon.png"
+             style="height: 50%; z-index: 1000">
+        <img class="centered-right" v-if="isAnimal()" src="../../public/versusIcon.png"
+             style="height: 50%; z-index: 1000">
       </div>
 
     </b-row>
@@ -27,9 +29,9 @@
           <b style="font-size: 1vw" v-else-if="second.metadata.sword === 'TWO'">Option: Two Handed Sword</b>
         </div>
         <div v-if="isAnimal()" class="text-with-animals">
-          <b style="font-size: 1vw" v-if="animals[0] !== '0'">Black Sheep: {{animals[0]}}</b><br>
-          <b style="font-size: 1vw" v-if="animals[1] !== '0'">Tiger: {{animals[1]}}</b><br>
-          <b style="font-size: 1vw" v-if="animals[2] !== '0'">Lion: {{animals[2]}}</b><br>
+          <b style="font-size: 1vw" v-if="animals[0] > 0">Black Sheep: {{animals[0]}}</b><br>
+          <b style="font-size: 1vw" v-if="animals[1] > 0">Tiger: {{animals[1]}}</b><br>
+          <b style="font-size: 1vw" v-if="animals[2] > 0">Lion: {{animals[2]}}</b><br>
         </div>
 
       </div>
@@ -120,6 +122,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
   }
+
   .centered-left {
     position: absolute;
     top: 50%;

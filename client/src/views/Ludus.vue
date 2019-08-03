@@ -6,7 +6,7 @@
       <p style="font-size:1vw;">{{comment}}</p>
     </div>
 
-    <b-row class="justify-content-md-center">
+    <b-row class="justify-content-center">
       <div :class="'m-3 card ' + (selected[type.id] ? 'card-selected' : '')" v-for="(type, index) in getTypes()"
            :key="index">
         <figure>
@@ -24,7 +24,7 @@
 
     <div class="separator"/>
 
-    <b-row align-h="center">
+    <b-row class="justify-content-center">
       <div
           :class="'m-3 card ' + (withAnimal ? 'card-selected' : '') + (numberOfSelected() !== 2 ? 'cancel-shadow' : '')">
         <figure>
@@ -42,7 +42,7 @@
 
     <div class="separator"/>
 
-    <b-row class="justify-content-md-center mt-4">
+    <b-row class="justify-content-center mt-4">
       <b-button v-if="numberOfSelected() === 2" variant="success" @click="onScheduledBattleConfirmed(withAnimal)">
         Confirm Selection
       </b-button>
