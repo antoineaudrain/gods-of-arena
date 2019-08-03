@@ -97,6 +97,30 @@ const client = {
                 scheduledBattleCount
             }`
       })
+    },
+
+    subscriptionNewBattle() {
+      return this.$apollo.subscribe({
+        query: gql`
+            subscription{
+                newBattle {
+                      id
+                      first {
+                          gladiator
+                          metadata {
+                              sword
+                          }
+                      }
+                      second {
+                          gladiator
+                          metadata {
+                              sword
+                          }
+                      }
+                      animals
+                  }
+            }`
+      })
     }
   }
 }

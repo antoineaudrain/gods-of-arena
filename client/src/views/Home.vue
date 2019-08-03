@@ -7,11 +7,11 @@
         <p style="font-size:1vw;">{{comment}}</p>
       </div>
 
-      <b-row class="justify-content-center" v-for="(battle, index) in battles">
-        <transition name="slide-fade" appear>
-          <VersusCard :key="index" :first="battle.first" :second="battle.second" :animals="battle.animals"/>
-        </transition>
-      </b-row>
+      <transition-group name="slideLeft">
+        <b-row class="justify-content-center" v-for="(battle, index) in battles" v-bind:key="battle">
+          <VersusCard :first="battle.first" :second="battle.second" :animals="battle.animals"/>
+        </b-row>
+      </transition-group>
     </div>
 
     <b-row v-else class="justify-content-center" style="margin-top: 20vw;">
@@ -24,6 +24,7 @@
 <script>
   import {client, notifications} from "../mixins"
   import {VersusCard} from '../components/index'
+  import 'vue2-animate/dist/vue2-animate.min.css'
 
   export default {
     name: 'home',
@@ -38,9 +39,9 @@
       const self = this
       self.battles = await self.getBattles()
 
-      this.subscriptionScheduledBattleCount().subscribe({
-        async next(_) {
-          self.battles = await self.getBattles()
+      this.subscriptionNewBattle().subscribe({
+        async next({data}) {
+          self.battles.splice(0, 0, data.newBattle);
         },
         error(error) {
           console.error(error)
@@ -59,17 +60,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .slide-fade-enter-active {
-    transition: all .6s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0, 0.8, 1.0);
-  }
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active below version 2.1.8 */ {
-    transform: translateX(-10vw);
-    opacity: 0;
-  }
-</style>

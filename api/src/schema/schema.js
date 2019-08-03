@@ -72,6 +72,7 @@ const typeDefs = gql`
     
     type Subscription {
       scheduledBattleCount: Int!
+      newBattle: Battle!
     }
     
     type Query {

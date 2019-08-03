@@ -20,7 +20,8 @@
     "graphql-tag": "^2.10.1",
     "vue": "^2.6.10",
     "vue-apollo": "^3.0.0-rc.2",
-    "vue-router": "^3.0.3"
+    "vue-router": "^3.0.3",
+    "vue2-animate": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",

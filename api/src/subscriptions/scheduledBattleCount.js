@@ -24,5 +24,4 @@ const scheduledBattleCount = {
   }
 }
 
-
 module.exports = {scheduledBattleCountPubSub, scheduledBattleCount, SCHEDULED_BATTLE_ADDED}
