@@ -8,7 +8,7 @@ async function getCount() {
 }
 
 const battle = async (_, {id, first, second, animals}) => {
-  const [firstId, secondId, animalId] = [uuidv4(), uuidv4(), uuidv4()]
+  const [battleId, firstId, secondId, animalId] = [uuidv4(), uuidv4(), uuidv4(), uuidv4()]
   const hasAnimals = animals.some(e => e.animalQuantity !== 0)
 
   try {
@@ -16,7 +16,7 @@ const battle = async (_, {id, first, second, animals}) => {
 
     await insertGladiators(firstId, first, secondId, second)
     await insertAnimals(hasAnimals, animalId, animals)
-    await insertBattle(firstId, secondId, hasAnimals, animalId)
+    await insertBattle(battleId, firstId, secondId, hasAnimals, animalId)
     await deleteOldestBattleScheduled(id)
 
     const count = await getCount()
@@ -49,9 +49,9 @@ const insertAnimals = async (hasAnimals, animalId, animals) => {
   }
 }
 
-const insertBattle = async (firstId, secondId, hasAnimals, animalId) => {
-  const insertBattleText = 'INSERT INTO battles(first, second, animals) VALUES ($1, $2, $3)'
-  const insertBattleValues = [firstId, secondId, hasAnimals ? animalId : null]
+const insertBattle = async (id, firstId, secondId, hasAnimals, animalId) => {
+  const insertBattleText = 'INSERT INTO battles(id, first, second, animals) VALUES ($1, $2, $3, $4)'
+  const insertBattleValues = [id, firstId, secondId, hasAnimals ? animalId : null]
   await client.query(insertBattleText, insertBattleValues)
 }
 

@@ -20,7 +20,7 @@
                        :value="null"
                        v-model="animals[animal.id]"
                        @change="updateLocalStorage()"
-                       :options="{ '0': 'Choose...','1': 'One', '2': 'Two', '3': 'Three' }"
+                       :options="{ '0': 'None','1': 'One', '2': 'Two', '3': 'Three' }"
                        id="inline-form-custom-select-pref"
         />
       </b-form>

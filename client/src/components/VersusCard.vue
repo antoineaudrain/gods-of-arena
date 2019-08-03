@@ -18,12 +18,12 @@
     <div class="overlay">
       <div class="text-content">
 
-        <div :class="isAnimal() ? 'text-with-animals' : 'text'" style="margin-top: 2vw">
+        <div :class="isAnimal() ? 'text-with-animals' : 'text'">
           <b>{{getTypes(first.gladiator).characters.find(e => e.id === first.gladiator).name}}</b><br>
           <b style="font-size: 1vw" v-if="first.metadata.sword === 'ONE'">Option: One Handed Sword</b>
           <b style="font-size: 1vw" v-else-if="first.metadata.sword === 'TWO'">Option: Two Handed Sword</b>
         </div>
-        <div :class="isAnimal() ? 'text-with-animals' : 'text'" style="margin-top: 2vw">
+        <div :class="isAnimal() ? 'text-with-animals' : 'text'">
           <b>{{getTypes(second.gladiator).characters.find(e => e.id === second.gladiator).name}}</b><br>
           <b style="font-size: 1vw" v-if="second.metadata.sword === 'ONE'">Option: One Handed Sword</b>
           <b style="font-size: 1vw" v-else-if="second.metadata.sword === 'TWO'">Option: Two Handed Sword</b>
@@ -99,6 +99,7 @@
 
   .text-content {
     display: flex;
+    height: 100%;
     justify-content: space-around;
   }
 
@@ -106,6 +107,8 @@
     width: 50%;
     text-align: center;
     color: white;
+    margin-top: auto;
+    margin-bottom: auto;
     font-size: 2vw;
   }
 
@@ -113,7 +116,9 @@
     width: 33.33%;
     text-align: center;
     color: white;
-    font-size: 2vw;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 1.5vw;
   }
 
   .centered {

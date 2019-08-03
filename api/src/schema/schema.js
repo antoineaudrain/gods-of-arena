@@ -64,6 +64,7 @@ const typeDefs = gql`
     }
     
     type Battle {
+        id: String!
         first: GladiatorData!
         second: GladiatorData!
         animals: [Int]!

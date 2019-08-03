@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-    <div v-if="battles[0]">
+    <div v-if="battles && battles[0]">
       <div style="margin-left: 5vw; margin-right: 5vw;">
         <h1 class="mt-4" style="font-size:2.5vw;">{{title}}</h1>
         <p style="font-size:1vw;">{{comment}}</p>

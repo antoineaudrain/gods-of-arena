@@ -3,7 +3,8 @@ const client = require("../db/postgres");
 const battles = async (_, {}) => {
   try {
     let result = (await client.query(`
-        SELECT json_build_object('gladiator' ,g1.character, 'metadata', g1.metadata) AS first,
+        SELECT b.id,
+               json_build_object('gladiator' ,g1.character, 'metadata', g1.metadata) AS first,
                json_build_object('gladiator' ,g2.character, 'metadata', g2.metadata) AS second,
                json_build_array(a.black_sheep, a.tiger, a.lion) AS animals
         FROM battles b

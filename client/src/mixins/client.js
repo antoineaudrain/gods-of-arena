@@ -28,6 +28,7 @@ const client = {
           query: gql`
               query {
                   battles {
+                      id
                       first {
                           gladiator
                           metadata {
