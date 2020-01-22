@@ -1,4 +1,5 @@
 # Gods Of Arena
+A mini project to get me learning Vue.Js and Docker mixing Node and gladiators.
 
 ## Technologies
 - NodeJs
